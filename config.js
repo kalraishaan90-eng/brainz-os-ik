@@ -1,5 +1,5 @@
 /**
- * BrainzOS — Institutional Environment & Local Supabase Configuration
+ * Eduvia — Institutional Environment & Local Supabase Configuration
  * =========================================================================
  * Single-origin self-hosted configuration.
  * All traffic stays on the local school host (window.location.origin).
@@ -12,7 +12,11 @@
  * drop every session into local-only demo mode (no cross-tab sync).
  * =========================================================================
  */
-window.BRAINZOS_CONFIG = {
-  SUPABASE_URL: (typeof window !== 'undefined' && window.BRAINZOS_SUPABASE_URL) || "",
-  SUPABASE_ANON_KEY: (typeof window !== 'undefined' && window.BRAINZOS_SUPABASE_ANON_KEY) || "local-institutional-anon-key"
+window.EDUVIA_CONFIG = {
+  SUPABASE_URL: (typeof window !== 'undefined' && window.EDUVIA_SUPABASE_URL) || (
+    (typeof window !== 'undefined' && window.location && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && window.location.port && window.location.port !== '8080' && window.location.port !== '3000')
+      ? `${window.location.protocol}//${window.location.hostname}:8080`
+      : ""
+  ),
+  SUPABASE_ANON_KEY: (typeof window !== 'undefined' && window.EDUVIA_SUPABASE_ANON_KEY) || "local-institutional-anon-key"
 };

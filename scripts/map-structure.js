@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const html = fs.readFileSync('BrainzOS.html', 'utf8');
+const html = fs.readFileSync('Eduvia.html', 'utf8');
 
 // Let's find all <button, <a, <input, <select, <textarea, and elements with onclick or role="button"
 const elementRegex = /<([a-zA-Z0-9]+)\b([^>]*?)>(?:([\s\S]*?)<\/\1>)?/gi;

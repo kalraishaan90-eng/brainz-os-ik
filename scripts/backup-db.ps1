@@ -1,5 +1,5 @@
 # =============================================================================
-# BrainzOS — Automated Database Backup (Windows PowerShell)
+# Eduvia — Automated Database Backup (Windows PowerShell)
 # =============================================================================
 # Retention: 14 Days
 # Usage: powershell -File scripts/backup-db.ps1
@@ -17,12 +17,12 @@ if (!(Test-Path $BackupDir)) {
 }
 
 $Timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
-$BackupFile = Join-Path $BackupDir "brainzos_backup_$Timestamp.dump"
+$BackupFile = Join-Path $BackupDir "eduvia_backup_$Timestamp.dump"
 
-Write-Host "Starting database dump from 'brainzos-db' to $BackupFile..."
+Write-Host "Starting database dump from 'eduvia-db' to $BackupFile..."
 
 # Stream custom format dump from container
-& docker exec brainzos-db pg_dump -U postgres -d postgres -F c > $BackupFile
+& docker exec eduvia-db pg_dump -U postgres -d postgres -F c > $BackupFile
 
 if ((Get-Item $BackupFile).Length -lt 1024) {
     Write-Error "Backup file is suspiciously small or empty. Check docker status."
@@ -31,14 +31,14 @@ if ((Get-Item $BackupFile).Length -lt 1024) {
 
 # Generate SHA256 checksum
 $Hash = (Get-FileHash -Path $BackupFile -Algorithm SHA256).Hash
-Set-Content -Path "$BackupFile.sha256" -Value "$Hash  brainzos_backup_$Timestamp.dump"
+Set-Content -Path "$BackupFile.sha256" -Value "$Hash  eduvia_backup_$Timestamp.dump"
 
 Write-Host "Backup created: $BackupFile ($((Get-Item $BackupFile).Length) bytes)"
 Write-Host "SHA256: $Hash"
 
 # Retention policy: Remove backups older than 14 days
 $Cutoff = (Get-Date).AddDays(-14)
-Get-ChildItem -Path $BackupDir -Filter "brainzos_backup_*.dump*" | Where-Object { $_.LastWriteTime -lt $Cutoff } | ForEach-Object {
+Get-ChildItem -Path $BackupDir -Filter "eduvia_backup_*.dump*" | Where-Object { $_.LastWriteTime -lt $Cutoff } | ForEach-Object {
     Write-Host "Pruning expired backup: $($_.Name)"
     Remove-Item $_.FullName -Force
 }

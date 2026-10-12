@@ -1,6 +1,6 @@
 -- =============================================================================
 -- Migration: 20260918000003_row_level_security.sql
--- Description: Row Level Security (RLS) Policies across all BrainzOS tables
+-- Description: Row Level Security (RLS) Policies across all Eduvia tables
 -- Stack: Supabase PostgreSQL
 -- =============================================================================
 

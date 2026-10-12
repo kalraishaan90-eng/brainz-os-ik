@@ -1,5 +1,5 @@
 /**
- * BrainzOS Key & Secret Generation Tool
+ * Eduvia Key & Secret Generation Tool
  * =========================================================================
  * Generates cryptographically secure production secrets for self-hosted
  * Supabase (PostgreSQL password, JWT secret, Anon key, and Service Role key).
@@ -66,7 +66,7 @@ function generateKeys() {
 if (require.main === module) {
   const keys = generateKeys();
   const envContent = `# =============================================================================
-# BrainzOS Self-Hosted Production Secrets
+# Eduvia Self-Hosted Production Secrets
 # Generated: ${new Date().toISOString()}
 # =============================================================================
 APP_PORT=80

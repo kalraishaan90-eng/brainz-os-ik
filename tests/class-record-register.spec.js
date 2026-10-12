@@ -2,14 +2,14 @@ const { test, expect } = require('@playwright/test');
 
 // Test accounts seeded in Supabase
 const ACCOUNTS = {
-  student: { email: 'student@brainz.edu', password: 'Password123!' },
-  teacher: { email: 'teacher@brainz.edu', password: 'Password123!' },
-  director: { email: 'director@brainz.edu', password: 'Password123!' }
+  student: { email: 'student@brainzeduworld.com', password: 'Password123!' },
+  teacher: { email: 'teacher@brainzeduworld.com', password: 'Password123!' },
+  director: { email: 'tarini@brainzeduworld.com', password: 'Password123!' }
 };
 
 async function loginAs(page, role) {
   const creds = ACCOUNTS[role];
-  await page.goto('/BrainzOS.html');
+  await page.goto('/Eduvia.html');
   await page.evaluate(async () => {
     try {
       if (typeof logoutUser === 'function') await logoutUser();
@@ -19,7 +19,7 @@ async function loginAs(page, role) {
       sessionStorage.clear();
     } catch (e) {}
   });
-  await page.goto('/BrainzOS.html');
+  await page.goto('/Eduvia.html');
   await expect(page.locator('#login-viewport')).toBeVisible({ timeout: 10000 });
 
   await page.fill('#school-email', creds.email);
@@ -32,15 +32,15 @@ async function loginAs(page, role) {
 test.describe('Class Record Register Suite', () => {
 
   test('1. Navigation & Access Control: Teacher & Director have access; Student is barred', async ({ page }) => {
-    // 1.1 Student check: Student must NOT have nav item
-    await loginAs(page, 'student');
-    await expect(page.locator('#nav-teacher-student-records')).toHaveCount(0);
-    await expect(page.locator('#nav-director-student-records')).toHaveCount(0);
-
-    // If student attempts to force-route to page-student-records via JS or hash
-    await page.evaluate(() => navigateTo('page-student-records'));
-    await expect(page.locator('#page-student-records')).not.toHaveClass(/active-page/);
-    await expect(page.locator('#page-student-dashboard')).toHaveClass(/active-page/);
+    // 1.1 Student check: Student login is completely barred from platform
+    await page.goto('/Eduvia.html');
+    await expect(page.locator('#login-viewport')).toBeVisible({ timeout: 10000 });
+    await page.fill('#school-email', 'student@brainzeduworld.com');
+    await page.fill('#school-password', 'Password123!');
+    await page.click('#continue-btn');
+    await expect(page.locator('#app-viewport')).not.toHaveClass(/active-view/);
+    const errText = await page.locator('#login-email-error-text').textContent();
+    expect(errText).toContain('Student accounts are not part of this platform. Contact your school office.');
 
     // 1.2 Teacher check: Has nav item and can visit page-student-records
     await loginAs(page, 'teacher');

@@ -7,9 +7,9 @@ test.describe('Director Role Full Tab Render & Navigation Verification', () => {
       if (msg.type() === 'error') consoleErrors.push(msg.text());
     });
 
-    await page.goto('/BrainzOS.html');
+    await page.goto('/Eduvia.html');
     await expect(page.locator('#login-viewport')).toBeVisible();
-    await page.fill('#school-email', 'director@brainz.edu');
+    await page.fill('#school-email', 'tarini@brainzeduworld.com');
     await page.fill('#school-password', 'Password123!');
     await page.click('#continue-btn');
     await expect(page.locator('#app-viewport')).toHaveClass(/active-view/, { timeout: 10000 });
@@ -37,8 +37,8 @@ test.describe('Director Role Full Tab Render & Navigation Verification', () => {
       await expect(pageEl).toBeVisible();
       await expect(pageEl).toHaveClass(/active-page/);
 
-      // Verify no kickout to student dashboard
-      await expect(page.locator('#page-student-dashboard')).not.toHaveClass(/active-page/);
+      // Verify no kickout to 404
+      await expect(page.locator('#page-404')).not.toHaveClass(/active-page/);
 
       // Verify the page has header content
       const content = await pageEl.innerText();

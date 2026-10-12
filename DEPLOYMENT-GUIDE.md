@@ -1,4 +1,4 @@
-# BrainzOS — Institutional On-Premises Deployment Guide
+# Eduvia — Institutional On-Premises Deployment Guide
 
 > **Official Systems Administration & IT Operations Manual**  
 > *Target Environments: Ubuntu Linux Server (22.04/24.04 LTS) or Windows Server / Docker Desktop*
@@ -7,7 +7,7 @@
 
 ## 1. System Architecture & Zero-Cloud Principles
 
-BrainzOS runs entirely on hardware owned and controlled by the institution.
+Eduvia runs entirely on hardware owned and controlled by the institution.
 - **Zero Third-Party Cloud Dependencies**: All services (PostgreSQL, Auth, REST, Realtime, Document Storage, and Web Shell) run in local Docker containers.
 - **Data Residency**: Student records, grades, biometric IDs, and attendance logs reside strictly on local disk volumes under `./volumes/db/data` and `./volumes/storage`.
 - **Zero External Network Calls**: All JavaScript libraries (Supabase JS, Lucide icons) and typography (Newsreader, Plus Jakarta Sans) are vendored on-premises. No telemetry or analytics exist.
@@ -59,7 +59,7 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 
 ### Step B: Provision Storage Directories & Permissions
 ```bash
-cd /opt/BrainzOS   # Or your target directory
+cd /opt/Eduvia   # Or your target directory
 
 # Create physical storage mount directories on school disk
 mkdir -p volumes/db/data
@@ -78,7 +78,7 @@ Never use default development passwords. Run the automated key generator:
 # Generate fresh database password, JWT secret, anon key, and service_role key
 node scripts/generate-keys.js --write
 ```
-Verify that `.env` is created. Adjust `APP_PORT` (default 80) and `SITE_URL` (e.g., `http://192.168.1.50` or `http://brainzos.school.internal`).
+Verify that `.env` is created. Adjust `APP_PORT` (default 80) and `SITE_URL` (e.g., `http://192.168.1.50` or `http://eduvia.school.internal`).
 
 ---
 
@@ -91,14 +91,14 @@ docker compose up -d
 docker compose ps
 ```
 Services initialized:
-1. `brainzos-db`: PostgreSQL 15 with migrations loaded automatically.
-2. `brainzos-kong`: API Gateway on port 8000 (internal).
-3. `brainzos-auth`: GoTrue identity provider (internal port 9999).
-4. `brainzos-rest`: PostgREST database engine (internal port 3000).
-5. `brainzos-realtime`: WebSockets pub/sub (internal port 4000).
-6. `brainzos-storage`: Local filesystem object storage (internal port 5000).
-7. `brainzos-functions`: Edge runtime for teacher provisioning.
-8. `brainzos-web`: Nginx serving static assets and reverse proxying to Kong.
+1. `eduvia-db`: PostgreSQL 15 with migrations loaded automatically.
+2. `eduvia-kong`: API Gateway on port 8000 (internal).
+3. `eduvia-auth`: GoTrue identity provider (internal port 9999).
+4. `eduvia-rest`: PostgREST database engine (internal port 3000).
+5. `eduvia-realtime`: WebSockets pub/sub (internal port 4000).
+6. `eduvia-storage`: Local filesystem object storage (internal port 5000).
+7. `eduvia-functions`: Edge runtime for teacher provisioning.
+8. `eduvia-web`: Nginx serving static assets and reverse proxying to Kong.
 
 ---
 
@@ -118,7 +118,7 @@ By default, the application is accessible on the school local network:
 - Access via IP: `http://192.168.1.50` (replace with your server's static IP).
 - Access via Local Hostname: Add an entry in the school DNS router or local DNS server (e.g. Pi-hole / pfSense / Windows Server DNS):
   ```
-  192.168.1.50   brainzos.school.internal
+  192.168.1.50   eduvia.school.internal
   ```
 
 ### Firewall Rules (Strict Defense)
@@ -128,8 +128,8 @@ By default, the application is accessible on the school local network:
 
 ### Remote Access Policy (VPN vs. Opening Ports)
 > [!IMPORTANT]
-> **DO NOT port-forward BrainzOS to the public internet.**
-> BrainzOS processes sensitive student records and academic marks. For staff or students accessing from home, deploy a dedicated VPN:
+> **DO NOT port-forward Eduvia to the public internet.**
+> Eduvia processes sensitive student records and academic marks. For staff or students accessing from home, deploy a dedicated VPN:
 > - **Tailscale** (e.g. install on the server and authorized staff laptops; zero firewall holes).
 > - **WireGuard / OpenVPN** terminating at the school's edge router.
 
@@ -138,28 +138,28 @@ By default, the application is accessible on the school local network:
 ## 5. Automated Backups & Disaster Recovery
 
 ### Automated Nightly Backups
-BrainzOS includes an automated `pg_dump` snapshot script with atomic SHA-256 verification and 14-day retention.
+Eduvia includes an automated `pg_dump` snapshot script with atomic SHA-256 verification and 14-day retention.
 
 #### On Linux: Schedule via Cron
 Add to the root crontab (`sudo crontab -e`):
 ```cron
-0 2 * * * /opt/BrainzOS/scripts/backup-db.sh >> /var/log/brainzos-backup.log 2>&1
+0 2 * * * /opt/Eduvia/scripts/backup-db.sh >> /var/log/eduvia-backup.log 2>&1
 ```
 
 #### On Windows: Schedule via Task Scheduler
 Create a Basic Task running daily at 2:00 AM:
 ```powershell
-powershell -ExecutionPolicy Bypass -File C:\BrainzOS\scripts\backup-db.ps1
+powershell -ExecutionPolicy Bypass -File C:\Eduvia\scripts\backup-db.ps1
 ```
 
 ### One-Command Restoration
 To restore a snapshot into the database:
 ```bash
 # Linux:
-./scripts/restore-db.sh /opt/BrainzOS/backups/brainzos_backup_20261001_020000.dump
+./scripts/restore-db.sh /opt/Eduvia/backups/eduvia_backup_20261001_020000.dump
 
 # Windows:
-powershell -File scripts/restore-db.ps1 -DumpPath "C:\BrainzOS\backups\brainzos_backup_20261001_020000.dump"
+powershell -File scripts/restore-db.ps1 -DumpPath "C:\Eduvia\backups\eduvia_backup_20261001_020000.dump"
 ```
 
 ---

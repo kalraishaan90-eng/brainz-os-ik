@@ -1,13 +1,13 @@
 -- =============================================================================
--- BrainzOS Seed Data Script
+-- Eduvia Seed Data Script
 -- File: supabase/seed.sql
--- Description: Realistic initial dataset matching BrainzOS UI mock state
+-- Description: Realistic initial dataset matching Eduvia UI mock state
 -- Stack: Supabase PostgreSQL
 -- Default password for all demo accounts: Password123!
 -- =============================================================================
 
 -- -----------------------------------------------------------------------------
--- 1. HOUSES (Points match House Cup Leaderboard in BrainzOS.html)
+-- 1. HOUSES (Points match House Cup Leaderboard in Eduvia.html)
 -- -----------------------------------------------------------------------------
 
 INSERT INTO public.houses (id, name, points) VALUES
@@ -213,7 +213,7 @@ SELECT 'XI-B', d.day, 5, '12:45:00', '13:35:00', 'Business Studies', 'a0000000-0
 FROM (VALUES ('Monday'), ('Tuesday'), ('Wednesday'), ('Thursday'), ('Friday')) AS d(day);
 
 -- -----------------------------------------------------------------------------
--- 5. ATTENDANCE RECORDS (Matches Teacher Attendance Page in BrainzOS.html)
+-- 5. ATTENDANCE RECORDS (Matches Teacher Attendance Page in Eduvia.html)
 -- -----------------------------------------------------------------------------
 
 INSERT INTO public.attendance_records (student_id, date, status, check_in_time, seat, marked_by) VALUES
@@ -254,7 +254,7 @@ ON CONFLICT (assignment_id, student_id) DO UPDATE SET
     completed_at = EXCLUDED.completed_at;
 
 -- -----------------------------------------------------------------------------
--- 7. GRADES (Matches Gradebook in BrainzOS.html)
+-- 7. GRADES (Matches Gradebook in Eduvia.html)
 -- -----------------------------------------------------------------------------
 
 INSERT INTO public.grades (student_id, assignment_id, category, score, max_score) VALUES
@@ -292,7 +292,7 @@ INSERT INTO public.grades (student_id, assignment_id, category, score, max_score
     ('a0000000-0000-0000-0000-000000000010', '44444444-4444-4444-4444-444444444401', 'presentation', 36, 40);
 
 -- -----------------------------------------------------------------------------
--- 8. PITCH PAD VENTURES (6 Core Startups from BrainzOS.html)
+-- 8. PITCH PAD VENTURES (6 Core Startups from Eduvia.html)
 -- -----------------------------------------------------------------------------
 
 INSERT INTO public.ventures (id, name, description, category, tags, founder_id, votes, directors_pick, status) VALUES
@@ -426,7 +426,7 @@ INSERT INTO public.broadcasts (id, headline, message, audience, published_by, cr
 ON CONFLICT (id) DO NOTHING;
 
 -- -----------------------------------------------------------------------------
--- 11. AUDIT LOGS (Matches Directorial Ledger in BrainzOS.html)
+-- 11. AUDIT LOGS (Matches Directorial Ledger in Eduvia.html)
 -- -----------------------------------------------------------------------------
 
 INSERT INTO public.audit_logs (actor_id, action, device, created_at) VALUES

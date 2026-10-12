@@ -1,5 +1,5 @@
 const fs = require('fs');
-let content = fs.readFileSync('BrainzOS.html', 'utf8').replace(/\r\n/g, '\n');
+let content = fs.readFileSync('Eduvia.html', 'utf8').replace(/\r\n/g, '\n');
 
 // 2. Fix setDirectorPlannerToday boundary
 const idx2 = content.indexOf('function setDirectorPlannerToday');
@@ -15,7 +15,7 @@ if (target2 !== fixed2) {
   console.log('Failed to match 2');
 }
 
-fs.writeFileSync('BrainzOS.html', content, 'utf8');
+fs.writeFileSync('Eduvia.html', content, 'utf8');
 
 // Test syntax
 const scriptStart = content.lastIndexOf('<script', content.indexOf('function validateFormInputs'));

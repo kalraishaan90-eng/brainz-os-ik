@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const staticElements = JSON.parse(fs.readFileSync('scripts/static-elements.json', 'utf8'));
 const dynamicElements = JSON.parse(fs.readFileSync('scripts/dynamic-elements.json', 'utf8'));
-const content = fs.readFileSync('BrainzOS.html', 'utf8');
+const content = fs.readFileSync('Eduvia.html', 'utf8');
 
 const scriptStart = content.indexOf('<script>');
 const jsPart = content.slice(scriptStart);

@@ -1,5 +1,5 @@
 # =============================================================================
-# BrainzOS .gitignore — Production Secrets, Backups & Hardware Volumes
+# Eduvia .gitignore — Production Secrets, Backups & Hardware Volumes
 # =============================================================================
 
 # Secrets & Environment Configurations
@@ -12,8 +12,12 @@ volumes/
 volumes/db/data/
 volumes/storage/
 
-# Nightly Local Backups
+# Nightly Local Backups & Lockdown Snapshots
 backups/
+_backup*
+*.backup*
+*.bak*
+*.orig
 *.dump
 *.sql.gz
 
@@ -26,9 +30,10 @@ test-results/
 playwright-report/
 .temp/
 .freebuff/
-*.backup*
-brainzos-PRE-PROD-BACKUP.html
-brainzos-PRE-QA-BACKUP.html
+*PRE-PROD-BACKUP.html
+*PRE-QA-BACKUP.html
+*-BACKUP.html
+*-backup.html
 scripts/audited-inventory.json
 scripts/dynamic-elements.json
 scripts/initial-inventory.json

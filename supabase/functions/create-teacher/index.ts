@@ -4,66 +4,97 @@
 // Runtime: Deno / Supabase Edge Runtime
 //
 // Description: Secure server-side teacher account provisioning.
-// - Authenticates the caller and enforces public.profiles.role === 'director' (403 if not).
-// - Validates duplicate email/username in both Auth and Profiles (409 if exists).
-// - Uses the privileged SUPABASE_SERVICE_ROLE_KEY (exclusively on the server) to create
-//   the auth user with an auto-generated temporary password and role='teacher' profile.
-// - Returns temporary credentials once to the Director for manual onboarding.
-//
-// PRODUCTION ROLLOUT NOTE:
-// In a production deployment, the temporary credentials should NOT be returned in
-// the HTTP response or rendered on-screen. Instead, an invitation email containing a
-// secure one-time password setup link or auto-generated credential token should be
-// dispatched directly to the teacher's email address (via Resend, SendGrid, or Supabase
-// Auth Invites). For the institutional pilot, displaying the credentials once on-screen
-// for manual handover by the Director is accepted.
+// - Authenticates caller via JWT Bearer token and validates profile.role === 'director'.
+// - Strict CORS restriction to institutional domains (no wildcard '*').
+// - Validates inputs against strict schema and rejects unknown fields.
+// - Enforces per-user rate limiting (max 10 requests per minute per director).
+// - Generates strong cryptographically random temporary password (14 chars).
+// - Enforces must_change_password on first login.
+// - Never logs passwords and never leaks service_role keys or internal stack traces.
 // =============================================================================
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-// Standard CORS headers for frontend consumption
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-};
+const ALLOWED_ORIGINS = [
+  "https://eduvia.brainzeduworld.com",
+  "https://brainzos.edu",
+  "http://localhost:8080",
+  "http://127.0.0.1:8080",
+  "http://localhost:3000",
+  "http://127.0.0.1:3000"
+];
+
+function getCorsHeaders(req: Request) {
+  const origin = req.headers.get("origin") || "";
+  const isAllowed = ALLOWED_ORIGINS.includes(origin) || origin.endsWith(".brainzeduworld.com");
+  const allowOrigin = isAllowed ? origin : ALLOWED_ORIGINS[0];
+
+  return {
+    "Access-Control-Allow-Origin": allowOrigin,
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Vary": "Origin"
+  };
+}
+
+// In-memory rate limiting: map of callerId -> timestamps[]
+const rateLimits = new Map<string, number[]>();
+
+function checkRateLimit(callerId: string, limit = 10, windowMs = 60000): boolean {
+  const now = Date.now();
+  const timestamps = rateLimits.get(callerId) || [];
+  const valid = timestamps.filter(t => now - t < windowMs);
+  if (valid.length >= limit) {
+    return false;
+  }
+  valid.push(now);
+  rateLimits.set(callerId, valid);
+  return true;
+}
 
 /**
- * Generate a cryptographically secure 10-character temporary password
- * containing uppercase, lowercase, numbers, and an allowable symbol.
+ * Generate a cryptographically secure 14-character temporary password
  */
-function generateTemporaryPassword(length = 10): string {
+function generateTemporaryPassword(length = 14): string {
   const upper = "ABCDEFGHJKLMNPQRSTUVWXYZ";
   const lower = "abcdefghijkmnopqrstuvwxyz";
   const numbers = "23456789";
-  const special = "!@#$%&*";
+  const special = "!@#$%&*?";
   const allChars = upper + lower + numbers + special;
 
   const array = new Uint8Array(length);
   crypto.getRandomValues(array);
 
-  // Guarantee at least one character from each required set
-  let pwd = [
+  // Guarantee at least two characters from each required set
+  const pwd = [
     upper[array[0] % upper.length],
-    lower[array[1] % lower.length],
-    numbers[array[2] % numbers.length],
-    special[array[3] % special.length],
+    upper[array[1] % upper.length],
+    lower[array[2] % lower.length],
+    lower[array[3] % lower.length],
+    numbers[array[4] % numbers.length],
+    numbers[array[5] % numbers.length],
+    special[array[6] % special.length],
+    special[array[7] % special.length],
   ];
 
-  for (let i = 4; i < length; i++) {
+  for (let i = 8; i < length; i++) {
     pwd.push(allChars[array[i] % allChars.length]);
   }
 
   // Shuffle array using Fisher-Yates
   for (let i = pwd.length - 1; i > 0; i--) {
     const j = array[i] % (i + 1);
-    [pwd[i], pwd[j]] = [pwd[j], pwd[i]];
+    const temp = pwd[i];
+    pwd[i] = pwd[j];
+    pwd[j] = temp;
   }
 
   return pwd.join("");
 }
 
 Deno.serve(async (req: Request) => {
+  const corsHeaders = getCorsHeaders(req);
+
   // Handle CORS preflight
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -89,7 +120,7 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // 1. Authenticate the caller using their Authorization bearer token
+    // 1. Authenticate caller using their Authorization bearer token
     const authHeader = req.headers.get("Authorization");
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return new Response(
@@ -100,7 +131,7 @@ Deno.serve(async (req: Request) => {
 
     const token = authHeader.replace("Bearer ", "").trim();
 
-    // Client operating in the context of the requesting user (enforces RLS)
+    // Client operating in caller context
     const callerClient = createClient(supabaseUrl, supabaseAnonKey || supabaseServiceRoleKey, {
       global: { headers: { Authorization: `Bearer ${token}` } },
       auth: { persistSession: false, autoRefreshToken: false },
@@ -115,36 +146,38 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // 2. Authorize caller: Verify caller's role is 'director' in public.profiles
-    // Create admin client (bypasses RLS for directory inspection and user provisioning)
+    // 2. Authorize caller: Verify role is 'director' from public.profiles
     const adminClient = createClient(supabaseUrl, supabaseServiceRoleKey, {
       auth: { persistSession: false, autoRefreshToken: false },
     });
 
     const { data: callerProfile, error: profileErr } = await adminClient
       .from("profiles")
-      .select("id, role, full_name")
+      .select("id, role, full_name, role_confirmed")
       .eq("id", callerUser.id)
       .single();
 
-    if (profileErr || !callerProfile || callerProfile.role !== "director") {
+    if (profileErr || !callerProfile || callerProfile.role !== "director" || !callerProfile.role_confirmed) {
       return new Response(
         JSON.stringify({
-          error: "Forbidden: Administrative director authorization is required to create faculty accounts.",
+          error: "Forbidden: Administrative director authorization is required.",
         }),
         { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    // 3. Parse and validate request payload
-    let body: {
-      full_name?: string;
-      email?: string;
-      class_sections_taught?: string | string[];
-      class_section_ids?: string[];
-    };
+    // Rate limit per caller
+    if (!checkRateLimit(callerUser.id, 10, 60000)) {
+      return new Response(
+        JSON.stringify({ error: "Too many requests. Please wait before creating more accounts." }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // 3. Parse and strictly validate payload against schema
+    let rawBody: Record<string, unknown> = {};
     try {
-      body = await req.json();
+      rawBody = await req.json();
     } catch {
       return new Response(
         JSON.stringify({ error: "Invalid JSON body provided." }),
@@ -152,50 +185,78 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const { full_name, email, class_sections_taught, class_section_ids } = body;
-
-    if (!full_name || typeof full_name !== "string" || full_name.trim().length < 2) {
+    // Reject unexpected extra fields (mass-assignment protection)
+    const allowedKeys = new Set(["full_name", "email", "role", "class_sections_taught", "class_section_ids"]);
+    const unknownKeys = Object.keys(rawBody).filter(k => !allowedKeys.has(k));
+    if (unknownKeys.length > 0) {
       return new Response(
-        JSON.stringify({ error: "Faculty member's full name is required (minimum 2 characters)." }),
+        JSON.stringify({ error: `Unknown request properties rejected: ${unknownKeys.join(", ")}` }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    if (!email || typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+    const fullName = typeof rawBody.full_name === "string" ? rawBody.full_name.trim() : "";
+    const email = typeof rawBody.email === "string" ? rawBody.email.trim().toLowerCase() : "";
+    const role = typeof rawBody.role === "string" ? rawBody.role.trim().toLowerCase() : "teacher";
+
+    if (role !== "teacher" && role !== "director") {
       return new Response(
-        JSON.stringify({ error: "A valid email address is required for institutional faculty credentials." }),
+        JSON.stringify({ error: "Account role must be teacher or director." }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    const normalizedEmail = email.trim().toLowerCase();
-    if (!normalizedEmail.endsWith("@brainzeduworld.com")) {
+    if (!fullName || fullName.length < 2 || fullName.length > 100) {
       return new Response(
-        JSON.stringify({ error: "Faculty email must be on the institutional domain (@brainzeduworld.com)." }),
+        JSON.stringify({ error: "Faculty member's full name is required (between 2 and 100 characters)." }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
-    const cleanFullName = full_name.trim();
 
-    // 3.1 Strict Server-Side Class Section Validation
-    // Validate every submitted class_section id exists in class_sections and is active. Never trust client list.
+    if (!email || email.length > 255 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return new Response(
+        JSON.stringify({ error: "A valid institutional email address is required." }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const domainPart = email.split("@")[1] || "";
+
+    // Query allowed_domains from app_config
+    const { data: domainConfig } = await adminClient
+      .from("app_config")
+      .select("value")
+      .eq("key", "allowed_domains")
+      .maybeSingle();
+
+    const allowedDomainsRaw = typeof domainConfig?.value === "string" ? domainConfig.value : "";
+    const allowedList = allowedDomainsRaw.split(",").map((d: string) => d.trim().toLowerCase()).filter(Boolean);
+    const isAllowedDomain = allowedList.some((d: string) => domainPart === d || domainPart.endsWith("." + d));
+
+    if (!isAllowedDomain) {
+      return new Response(
+        JSON.stringify({ error: `Institutional email must belong to an authorized institutional domain (${allowedList.join(", ")}).` }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Validate class sections
     let submittedIds: string[] = [];
-    if (Array.isArray(class_section_ids) && class_section_ids.length > 0) {
-      submittedIds = class_section_ids.map(id => String(id).trim()).filter(Boolean);
-    } else if (Array.isArray(class_sections_taught) && class_sections_taught.length > 0) {
-      submittedIds = class_sections_taught.map(id => String(id).trim()).filter(Boolean);
-    } else if (typeof class_sections_taught === "string" && class_sections_taught.trim()) {
-      submittedIds = class_sections_taught.split(",").map(s => s.trim()).filter(Boolean);
+    if (Array.isArray(rawBody.class_section_ids) && rawBody.class_section_ids.length > 0) {
+      submittedIds = rawBody.class_section_ids.map(id => String(id).trim()).filter(Boolean);
+    } else if (Array.isArray(rawBody.class_sections_taught) && rawBody.class_sections_taught.length > 0) {
+      submittedIds = rawBody.class_sections_taught.map(id => String(id).trim()).filter(Boolean);
+    } else if (typeof rawBody.class_sections_taught === "string" && rawBody.class_sections_taught.trim()) {
+      submittedIds = rawBody.class_sections_taught.split(",").map(s => s.trim()).filter(Boolean);
     }
 
-    if (submittedIds.length === 0) {
+    if (role === "teacher" && submittedIds.length === 0) {
       return new Response(
         JSON.stringify({ error: "At least one class section must be selected for the faculty member." }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    // Query active class sections from database
     const { data: allDbSections, error: csErr } = await adminClient
       .from("class_sections")
       .select("id, grade, section, stream, display_name, active");
@@ -228,20 +289,14 @@ Deno.serve(async (req: Request) => {
 
       if (!match) {
         return new Response(
-          JSON.stringify({
-            error: `Invalid class section: "${token}" does not exist in the institutional class registry.`,
-            code: "CLASS_SECTION_NOT_FOUND"
-          }),
+          JSON.stringify({ error: `Invalid class section: "${token}" does not exist in registry.`, code: "CLASS_SECTION_NOT_FOUND" }),
           { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }
 
       if (!match.active) {
         return new Response(
-          JSON.stringify({
-            error: `Class section "${match.display_name}" is deactivated. Only active sections can be assigned to faculty.`,
-            code: "CLASS_SECTION_INACTIVE"
-          }),
+          JSON.stringify({ error: `Class section "${match.display_name}" is deactivated.`, code: "CLASS_SECTION_INACTIVE" }),
           { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }
@@ -251,66 +306,38 @@ Deno.serve(async (req: Request) => {
       }
     }
 
-    if (validatedSections.length === 0) {
-      return new Response(
-        JSON.stringify({ error: "No valid, active class sections were provided." }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
-    // Build standard section code format for backward compatibility (e.g. "XI-B", "3-A", "8-A", "XII-A")
     const classSectionCodes = validatedSections.map(cs => {
-      if (cs.grade >= 11) {
-        return `${toRoman(cs.grade)}-${cs.section}`;
-      }
+      if (cs.grade >= 11) return `${toRoman(cs.grade)}-${cs.section}`;
       return `${cs.grade}-${cs.section}`;
     });
 
     const classSectionsStr = classSectionCodes.join(", ");
-    const verifiedDisplayNames = validatedSections.map(cs => cs.display_name).join(", ");
 
-    // 4. Duplicate Check (registry hints only; auth.users is the authority)
-    // public.profiles has no email column; Supabase Auth is the sole owner of
-    // account emails. The student_id_code lookup below only surfaces legacy rows
-    // where the institutional identifier was stored as the email — the definitive
-    // duplicate guard is mapping createUser's own error (see step 6), which is
-    // race-free by construction (no pre-scan window for two concurrent calls).
-    const { data: existingProfile, error: profileLookupError } = await adminClient
+    // Check duplicate in profiles
+    const { data: existingProfile } = await adminClient
       .from("profiles")
-      .select("id, full_name, role")
-      .eq("student_id_code", normalizedEmail)
+      .select("id")
+      .eq("email", email)
       .maybeSingle();
-
-    if (profileLookupError) {
-      console.error("Profile duplicate lookup failed:", profileLookupError);
-      return new Response(
-        JSON.stringify({ error: "Could not verify the institutional registry. Please retry." }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
 
     if (existingProfile) {
       return new Response(
-        JSON.stringify({
-          error: "A user with this email/username already exists in the institutional registry.",
-          code: "USER_ALREADY_EXISTS",
-        }),
+        JSON.stringify({ error: "A user with this email already exists in the institutional registry.", code: "USER_ALREADY_EXISTS" }),
         { status: 409, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    // 5. Generate secure temporary password
-    const temporaryPassword = generateTemporaryPassword(10);
+    // Generate strong temporary password
+    const temporaryPassword = generateTemporaryPassword(14);
 
-    // 6. Provision Auth user with role='teacher' in metadata
+    // Create auth user
     const { data: newAuthData, error: createUserError } = await adminClient.auth.admin.createUser({
-      email: normalizedEmail,
+      email,
       password: temporaryPassword,
-      // Acceptable for institutional pilot; production should use a real confirmation email flow instead
       email_confirm: true,
       user_metadata: {
-        full_name: cleanFullName,
-        role: "teacher",
+        full_name: fullName,
+        role: role,
         class_section: classSectionsStr,
         must_change_password: true,
       },
@@ -318,85 +345,57 @@ Deno.serve(async (req: Request) => {
 
     if (createUserError || !newAuthData?.user) {
       console.error("Error creating auth user:", createUserError);
-      // Supabase Auth rejects a duplicate email with status 422 and code
-      // "email_exists" (message "User already registered"). Map it to our
-      // canonical 409 instead of a generic 400 so the director UI can say
-      // "account exists" rather than "failed to provision". Checking the error
-      // itself (instead of pre-scanning listUsers pages) is race-free: two
-      // concurrent calls cannot both pass a pre-scan, but only one can create.
-      const errStatus = (createUserError as { status?: number } | null)?.status;
-      const errCode = (createUserError as { code?: string } | null)?.code;
-      const isDuplicate =
-        errCode === "email_exists" ||
-        errStatus === 422 ||
-        /already registered/i.test(createUserError?.message || "");
-      if (isDuplicate) {
-        return new Response(
-          JSON.stringify({
-            error: "A user with this email/username already exists in the institutional registry.",
-            code: "USER_ALREADY_EXISTS",
-          }),
-          { status: 409, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
-      }
       return new Response(
-        JSON.stringify({
-          error: createUserError?.message || "Failed to provision faculty user in authentication service.",
-        }),
+        JSON.stringify({ error: "Failed to provision faculty user credentials." }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
     const newUserId = newAuthData.user.id;
 
-    // 7. Update profile row in public.profiles created by the on_auth_user_created database trigger
-    // (The handle_new_user trigger inserts a row on auth.users insert; update it instead of inserting a new one to prevent race condition)
+    // Update profile row
     const { error: updateProfileError } = await adminClient
       .from("profiles")
       .update({
-        full_name: cleanFullName,
-        email: normalizedEmail,
-        role: "teacher",
+        full_name: fullName,
+        email: email,
+        role: role,
         role_confirmed: true,
         class_section: classSectionsStr,
-        stream: "Commerce & Humanities",
         updated_at: new Date().toISOString(),
       })
       .eq("id", newUserId);
 
     if (updateProfileError) {
-      // The auth user was already created: roll it back so a half-provisioned
-      // account cannot linger without a usable profile (a retry would then hit 409
-      // forever). We deliberately surface the profile error instead of swallowing it.
       console.error("Profile update failed, deleting orphaned auth user:", updateProfileError);
       await adminClient.auth.admin.deleteUser(newUserId);
       return new Response(
-        JSON.stringify({ error: "Auth user created but profile provisioning failed; please retry." }),
+        JSON.stringify({ error: "Provisioning failed during profile creation." }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    // 8. Return the generated username and temporary password ONCE
+    // Return temporary credentials once (never log password, never return service_role keys)
     return new Response(
       JSON.stringify({
         success: true,
         message: "Faculty account provisioned successfully.",
         credentials: {
           id: newUserId,
-          full_name: cleanFullName,
-          email: normalizedEmail,
+          full_name: fullName,
+          email: email,
           temporary_password: temporaryPassword,
-          role: "teacher",
+          role: role,
           class_sections_taught: classSectionsStr,
         },
-        notice: "Please securely provide these credentials to the teacher. They should change their password on first sign-in.",
+        notice: "Please securely provide these credentials to the teacher. They must change password on first sign-in.",
       }),
       { status: 201, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Unhandled error in create-teacher:", err);
     return new Response(
-      JSON.stringify({ error: err?.message || "Internal server error occurred while creating teacher account." }),
+      JSON.stringify({ error: "An unexpected internal server error occurred." }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }

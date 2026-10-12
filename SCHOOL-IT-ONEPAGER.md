@@ -1,10 +1,10 @@
-# BrainzOS — School IT Administrator & Principal One-Pager
+# Eduvia — School IT Administrator & Principal One-Pager
 **Operational Guide for On-Premise Institutional Deployment**
 
 ---
 
 ### 1. Executive Summary
-BrainzOS is an air-gapped, on-premise School Operating System running entirely on your school's own computer hardware. 
+Eduvia is an air-gapped, on-premise School Operating System running entirely on your school's own computer hardware. 
 - **Zero Cloud Exposure:** No student or faculty data ever leaves the school's physical server room.
 - **No Recurring Cloud Subscriptions:** Eliminates third-party hosted database fees and vendor lock-in.
 - **Full Legal Compliance:** Compliant with India's *Digital Personal Data Protection (DPDP) Act, 2023* for student data residency, parental consent tracking, and right-to-erasure.
@@ -44,8 +44,8 @@ Backups run automatically every morning at **02:00 AM** via an automated task sc
 - **Windows PowerShell:** `.\scripts\backup-db.ps1`
 
 **How to restore a backup if the server fails:**
-- **Linux:** `sudo ./scripts/restore-db.sh ./backups/brainzos_backup_YYYYMMDD_HHMMSS.dump`
-- **Windows PowerShell:** `.\scripts\restore-db.ps1 -BackupFile .\backups\brainzos_backup_YYYYMMDD_HHMMSS.dump`
+- **Linux:** `sudo ./scripts/restore-db.sh ./backups/eduvia_backup_YYYYMMDD_HHMMSS.dump`
+- **Windows PowerShell:** `.\scripts\restore-db.ps1 -BackupFile .\backups\eduvia_backup_YYYYMMDD_HHMMSS.dump`
 
 ---
 
@@ -71,7 +71,7 @@ Backups run automatically every morning at **02:00 AM** via an automated task sc
 
 ### 6. First-Run Setup & Beginning of Academic Year Checklist
 
-When deploying BrainzOS for the first time or starting a new academic session:
+When deploying Eduvia for the first time or starting a new academic session:
 
 1. **Step 1: Start the Server**
    ```bash
@@ -88,12 +88,12 @@ When deploying BrainzOS for the first time or starting a new academic session:
    - Click **Add Teacher** → Enter teacher name, school email, and assigned cohort.
    - Teachers receive temporary password `Password123!` and are prompted to set their private password upon first sign-in.
 4. **Step 4: Batch Import Student Roster**
-   - Download the official template: [`templates/students-import-template.csv`](file:///d:/BrainzOS/templates/students-import-template.csv).
+   - Download the official template: [`templates/students-import-template.csv`](file:///d:/Eduvia/templates/students-import-template.csv).
    - Fill in student columns: `name, email, class_section, stream, house`.
    - In the Director portal, click **Bulk Import Students (CSV)** → Select your file → Click **Import Students**.
-   - BrainzOS securely provisions student credentials in bulk with zero third-party cloud calls.
+   - Eduvia securely provisions student credentials in bulk with zero third-party cloud calls.
 
 ---
 
 *Document prepared by Senior Backend & Security Engineering Team.*  
-*For emergency hardware support or server configuration assistance, refer to the full [DEPLOYMENT-GUIDE.md](file:///d:/BrainzOS/DEPLOYMENT-GUIDE.md).*
+*For emergency hardware support or server configuration assistance, refer to the full [DEPLOYMENT-GUIDE.md](file:///d:/Eduvia/DEPLOYMENT-GUIDE.md).*

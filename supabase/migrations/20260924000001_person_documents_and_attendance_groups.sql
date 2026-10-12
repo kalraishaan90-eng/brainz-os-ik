@@ -216,7 +216,7 @@ SET class_group = CASE
       OR class_section ILIKE 'PREP%'
       THEN 'elementary'::public.class_group
 
-    -- Fallback default for unmatched student cohorts (defaults to 'high' for BrainzOS core XI/XII cohort)
+    -- Fallback default for unmatched student cohorts (defaults to 'high' for Eduvia core XI/XII cohort)
     ELSE 'high'::public.class_group
 END
 WHERE role = 'student'

@@ -6,7 +6,7 @@ const fs = require('fs');
 const PORT = 8089;
 const server = http.createServer((req, res) => {
   let reqPath = decodeURI(req.url.split('?')[0]);
-  if (reqPath === '/') reqPath = '/BrainzOS.html';
+  if (reqPath === '/') reqPath = '/Eduvia.html';
   const filePath = path.join(process.cwd(), reqPath);
   if (!fs.existsSync(filePath)) {
     res.writeHead(404);
@@ -28,8 +28,8 @@ server.listen(PORT, '127.0.0.1', async () => {
   page.on('pageerror', err => console.log('BROWSER ERROR:', err.message));
   page.on('requestfailed', req => console.log('REQ FAILED:', req.url(), req.failure()?.errorText));
 
-  await page.goto(`http://127.0.0.1:${PORT}/BrainzOS.html`);
-  console.log('Navigated to BrainzOS.html');
+  await page.goto(`http://127.0.0.1:${PORT}/Eduvia.html`);
+  console.log('Navigated to Eduvia.html');
 
   // Quick select director
   await page.click('button[onclick="quickSelectRole(\'director\')"]');

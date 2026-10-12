@@ -1,5 +1,5 @@
 const fs = require('fs');
-const content = fs.readFileSync('BrainzOS.html', 'utf8');
+const content = fs.readFileSync('Eduvia.html', 'utf8');
 
 // Find all buttons in modals (between char 298000 and 326000)
 const modalsPart = content.substring(298000, 326000);

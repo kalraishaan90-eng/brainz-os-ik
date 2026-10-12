@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const file = path.join(__dirname, '..', 'BrainzOS.html');
+const file = path.join(__dirname, '..', 'Eduvia.html');
 let html = fs.readFileSync(file, 'utf8');
 
 const target = `<section class="os-page" id="page-director-teachers">

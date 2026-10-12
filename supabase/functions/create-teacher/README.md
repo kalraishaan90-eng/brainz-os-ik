@@ -1,6 +1,6 @@
 # Supabase Edge Function: `create-teacher`
 
-This Edge Function enables secure, server-side provisioning of faculty (`teacher`) accounts in BrainzOS.
+This Edge Function enables secure, server-side provisioning of faculty (`teacher`) accounts in Eduvia.
 
 ## Security Architecture
 1. **Zero Client-Side Secret Leakage**: Creating users via Supabase Admin requires the `service_role` key. This key is strictly kept in server-side Edge Function secrets (`Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')`). It is never bundled into browser code.

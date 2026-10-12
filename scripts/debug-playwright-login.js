@@ -7,7 +7,7 @@ const fs = require('fs');
 const PORT = 8089;
 const server = http.createServer((req, res) => {
   let reqPath = decodeURI(req.url.split('?')[0]);
-  if (reqPath === '/') reqPath = '/BrainzOS.html';
+  if (reqPath === '/') reqPath = '/Eduvia.html';
   const filePath = path.join(__dirname, '..', reqPath);
   if (!fs.existsSync(filePath)) {
     res.writeHead(404);
@@ -28,7 +28,7 @@ server.listen(PORT, '127.0.0.1', async () => {
   page.on('console', msg => console.log('LOG:', msg.type(), msg.text()));
   page.on('pageerror', err => console.log('ERROR:', err.message));
 
-  await page.goto(`http://127.0.0.1:${PORT}/BrainzOS.html`);
+  await page.goto(`http://127.0.0.1:${PORT}/Eduvia.html`);
   console.log('Page loaded');
 
   // Check Supabase object in browser

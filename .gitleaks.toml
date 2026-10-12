@@ -1,4 +1,4 @@
-title = "BrainzOS Gitleaks Secret Scanning Configuration"
+title = "Eduvia Gitleaks Secret Scanning Configuration"
 
 [extend]
 useDefault = true

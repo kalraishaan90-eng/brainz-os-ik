@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 const inventory = JSON.parse(fs.readFileSync('scripts/initial-inventory.json', 'utf8'));
-const content = fs.readFileSync('BrainzOS.html', 'utf8');
+const content = fs.readFileSync('Eduvia.html', 'utf8');
 
 const scriptStart = content.indexOf('<script>');
 const jsPart = content.slice(scriptStart);

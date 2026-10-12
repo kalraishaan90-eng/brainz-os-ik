@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const content = fs.readFileSync('BrainzOS.html', 'utf8');
+const content = fs.readFileSync('Eduvia.html', 'utf8');
 
 const writeFunctions = [
   'handleCreateAssignment',

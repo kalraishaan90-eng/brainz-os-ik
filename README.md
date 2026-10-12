@@ -1,12 +1,27 @@
-# BrainzOS Backend Setup Guide (Supabase + Postgres + RLS)
+# Eduvia Backend Setup Guide (Supabase + Postgres + RLS)
 
-This directory contains the database schema, security rules, and seed scripts to power **BrainzOS** using [Supabase](https://supabase.com).
+This directory contains the database schema, security rules, and seed scripts to power **Eduvia** using [Supabase](https://supabase.com).
 
 ---
 
+## Onboarding a new school
+
+1. **Create the school's self-hosted database**: deploy a self-hosted Supabase stack (PostgreSQL, Auth, REST API, and Realtime) on infrastructure managed by the school. Configure TLS, restrict network access, and create a separate project/database per school.
+2. **Run migrations**: configure the Supabase CLI for that deployment and run `supabase db push`. Migrations create the schema, security policies, default module flags, and initial school configuration.
+3. **Run the school setup wizard**: create the initial director account, enter the school name and allowed email domain(s), then review the academic structure and enabled modules. The director provisions teacher and director accounts with their roles.
+4. **Go live** after verifying sign-in, role access, and a backup restore path.
+
+Production checklist:
+
+- Do not load `supabase/seed.sql` or any demo/test users or records into production.
+- Keep service-role keys and other secrets on the server; never embed them in frontend code. The browser may contain only the restricted anon key.
+- Configure automated encrypted database backups and test restoring them regularly.
+- Set the allowed email domain(s) before inviting staff; sign-in and account provisioning enforce this database-backed allowlist.
+- Export the school configuration JSON before making major module or setup changes.
+
 ## Quick Reference: Demo Accounts
 
-All demo accounts are pre-configured in `supabase/seed.sql` with the password:  
+Development demo accounts only are pre-configured in `supabase/seed.sql` with the password:  
 **`Password123!`**
 
 | Name | Role | Email | Class / Cohort | Notes |
@@ -25,12 +40,15 @@ All demo accounts are pre-configured in `supabase/seed.sql` with the password:
 
 1. Go to [database.new](https://database.new) or the [Supabase Dashboard](https://supabase.com/dashboard).
 2. Click **New project**.
-3. Choose an organization, enter a project name (e.g. `BrainzOS-School`), set a strong database password, and select a region close to your school.
+3. Choose an organization, enter a project name (e.g. `Eduvia-School`), set a strong database password, and select a region close to your school.
 4. Wait approximately 1–2 minutes for the database cluster to provision.
 
 ---
 
 ## Step 2: Apply Database Migrations & Seed Data
+
+> Production deployments must run migrations only. Never apply `supabase/seed.sql` to a production school database.
+
 
 You can apply the migrations using either the **Supabase Web Dashboard** (quickest) or the **Supabase CLI** (for local development or CI/CD).
 
@@ -80,7 +98,7 @@ When you are ready to wire the frontend:
    - **`anon` `public` key**: A long JWT string starting with `eyJ...`
 4. Update `config.js` with these credentials:
    ```javascript
-   window.BRAINZOS_CONFIG = {
+   window.EDUVIA_CONFIG = {
      SUPABASE_URL: "https://<your-project-ref>.supabase.co",
      SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
    };

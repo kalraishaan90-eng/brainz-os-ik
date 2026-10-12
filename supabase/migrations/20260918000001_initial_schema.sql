@@ -1,6 +1,6 @@
 -- =============================================================================
 -- Migration: 20260918000001_initial_schema.sql
--- Description: Core Schema for BrainzOS (Types, Tables, Constraints & Indexes)
+-- Description: Core Schema for Eduvia (Types, Tables, Constraints & Indexes)
 -- Stack: Supabase PostgreSQL
 -- =============================================================================
 

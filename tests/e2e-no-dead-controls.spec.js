@@ -2,15 +2,15 @@ const { test, expect } = require('@playwright/test');
 
 // Test accounts seeded in Supabase
 const ACCOUNTS = {
-  student: { email: 'student@brainz.edu', password: 'Password123!', roleName: 'student' },
-  teacher: { email: 'teacher@brainz.edu', password: 'Password123!', roleName: 'teacher' },
-  director: { email: 'director@brainz.edu', password: 'Password123!', roleName: 'director' }
+  student: { email: 'student@brainzeduworld.com', password: 'Password123!', roleName: 'student' },
+  teacher: { email: 'teacher@brainzeduworld.com', password: 'Password123!', roleName: 'teacher' },
+  director: { email: 'tarini@brainzeduworld.com', password: 'Password123!', roleName: 'director' }
 };
 
 // Helper: login as role
 async function loginAs(page, role) {
   const creds = ACCOUNTS[role];
-  await page.goto('/BrainzOS.html');
+  await page.goto('/Eduvia.html');
   await expect(page.locator('#login-viewport')).toBeVisible();
 
   await page.fill('#school-email', creds.email);
@@ -35,61 +35,37 @@ test.describe('External Domain Isolation Test', () => {
       }
     });
 
-    await loginAs(page, 'student');
+    await loginAs(page, 'teacher');
     await page.waitForTimeout(1000);
     expect(unauthorizedRequests).toEqual([]);
   });
 });
 
-test.describe('Student Role End-to-End Controls', () => {
-  test('Student visits all pages and exercises controls with zero dead elements', async ({ page }) => {
-    const consoleErrors = [];
-    page.on('console', msg => {
-      if (msg.type() === 'error') consoleErrors.push(msg.text());
-    });
+test.describe('Student Removal and Access Barred Verification', () => {
+  test('Student cannot login, and student-only pages/elements are absent', async ({ page }) => {
+    // 1. Student login rejection
+    await page.goto('/Eduvia.html');
+    await expect(page.locator('#login-viewport')).toBeVisible();
+    await page.fill('#school-email', 'student@brainzeduworld.com');
+    await page.fill('#school-password', 'Password123!');
+    await page.click('#continue-btn');
+    await expect(page.locator('#app-viewport')).not.toHaveClass(/active-view/);
+    const errorText = await page.locator('#login-email-error-text').textContent();
+    expect(errorText).toContain('Student accounts are not part of this platform. Contact your school office.');
 
-    await loginAs(page, 'student');
-
-    // 1. Dashboard quick links
-    await expect(page.locator('#page-student-dashboard')).toBeVisible();
-    await page.click('button:has-text("Digital Pass")');
-    await expect(page.locator('#page-student-pass')).toBeVisible();
-
-    // 2. Digital Pass flip card
-    await page.click('button:has-text("Flip Digital Pass")');
-    await page.waitForTimeout(400);
-    await page.locator('#pass-card-element').click();
-
-    // 3. Timetable navigation
-    await page.click('#nav-student-timetable');
-    await expect(page.locator('#page-student-timetable')).toBeVisible();
-
-    // 4. Assignments & Filters
-    await page.click('#nav-student-assignments');
-    await expect(page.locator('#page-student-assignments')).toBeVisible();
-    await page.click('#asg-filter-pending');
-    await page.click('#asg-filter-completed');
-    await page.click('#asg-filter-all');
-    await page.fill('#asg-search-input', 'Market');
-    await page.fill('#asg-search-input', '');
-
-    // 5. Clubs & Houses
-    await page.click('#nav-student-clubs');
-    await expect(page.locator('#page-student-clubs')).toBeVisible();
-    await expect(page.locator('text=Lab Schedule').first()).toBeVisible();
-
-    // 6. Results
-    await page.click('#nav-student-results');
-    await expect(page.locator('#page-student-results')).toBeVisible();
-
-    // 7. Command palette
-    await page.click('.search-trigger');
-    await expect(page.locator('#cmd-overlay')).toHaveClass(/active/);
-    await page.keyboard.press('Escape');
-    await expect(page.locator('#cmd-overlay')).not.toHaveClass(/active/);
-
-    // Verify no unhandled console errors
-    expect(consoleErrors).toEqual([]);
+    // 2. Login as teacher and assert student pages are absent
+    await loginAs(page, 'teacher');
+    const studentPages = [
+      '#page-student-dashboard',
+      '#page-student-timetable',
+      '#page-student-assignments',
+      '#page-student-pass',
+      '#page-student-clubs',
+      '#page-student-results'
+    ];
+    for (const p of studentPages) {
+      await expect(page.locator(p)).toHaveCount(0);
+    }
   });
 });
 
@@ -185,18 +161,15 @@ test.describe('Director Role End-to-End Controls', () => {
 
 test.describe('Dead Control Detector Test', () => {
   test('Generic detector asserts all visible buttons trigger observable action', async ({ page }) => {
-    await loginAs(page, 'student');
+    await loginAs(page, 'teacher');
 
-    // Allow-list for controls with explicit written reason:
-    // 1. dismissCookieBanner: banner dismissed on first click or already dismissed
-    // 2. toggleSelectAllAssignees: sub-control in closed modals
     const ALLOWLIST = [
       'dismissCookieBanner',
       'toggleSelectAllAssignees'
     ];
 
     // Collect all visible buttons in the current active page
-    const buttons = await page.$$eval('#page-student-dashboard button:visible', btns =>
+    const buttons = await page.$$eval('#page-teacher-overview button:visible', btns =>
       btns.map(b => ({
         id: b.id,
         text: (b.innerText || '').trim(),
@@ -205,7 +178,7 @@ test.describe('Dead Control Detector Test', () => {
     );
 
     for (const b of buttons) {
-      if (ALLOWLIST.some(a => b.onclick.includes(a))) continue;
+      if (ALLOWLIST.some(a => b.onclick && b.onclick.includes(a))) continue;
 
       // Set up DOM mutation observer
       await page.evaluate(() => {
@@ -231,9 +204,10 @@ test.describe('Dead Control Detector Test', () => {
 
       expect(mutated).toBe(true);
 
-      // Return to student dashboard if navigation occurred
+      // Return to teacher overview if navigation occurred and close any open modal
       await page.evaluate(() => {
-        if (typeof navigateTo === 'function') navigateTo('page-student-dashboard', true);
+        document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+        if (typeof navigateTo === 'function') navigateTo('page-teacher-overview', true);
       });
       await page.waitForTimeout(300);
     }

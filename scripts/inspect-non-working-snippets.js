@@ -1,5 +1,5 @@
 const fs = require('fs');
-const content = fs.readFileSync('BrainzOS.html', 'utf8');
+const content = fs.readFileSync('Eduvia.html', 'utf8');
 const list = JSON.parse(fs.readFileSync('scripts/audited-inventory.json', 'utf8'));
 const nonWorking = list.filter(x => x.status !== 'WORKING');
 

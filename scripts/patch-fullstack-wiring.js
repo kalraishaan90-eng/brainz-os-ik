@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const filePath = path.join(__dirname, '..', 'BrainzOS.html');
+const filePath = path.join(__dirname, '..', 'Eduvia.html');
 let content = fs.readFileSync(filePath, 'utf8');
 
 console.log('Current size:', content.length);

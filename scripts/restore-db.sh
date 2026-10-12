@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # =============================================================================
-# BrainzOS — One-Command Database Restore Script (On-Premises)
+# Eduvia — One-Command Database Restore Script (On-Premises)
 # =============================================================================
-# Usage: ./scripts/restore-db.sh /path/to/backups/brainzos_backup_YYYYMMDD_HHMMSS.dump
+# Usage: ./scripts/restore-db.sh /path/to/backups/eduvia_backup_YYYYMMDD_HHMMSS.dump
 # =============================================================================
 
 set -euo pipefail
@@ -26,7 +26,7 @@ if [ -f "${DUMP_PATH}.sha256" ]; then
 fi
 
 echo "==================================================================="
-echo "WARNING: Restoring will overwrite existing data in 'brainzos-db'!"
+echo "WARNING: Restoring will overwrite existing data in 'eduvia-db'!"
 echo "Target backup: ${DUMP_PATH}"
 echo "==================================================================="
 read -p "Type 'RESTORE' to proceed: " CONFIRM
@@ -36,7 +36,7 @@ if [ "${CONFIRM}" != "RESTORE" ]; then
     exit 0
 fi
 
-echo "Streaming dump into container 'brainzos-db' via pg_restore..."
-docker exec -i brainzos-db pg_restore -U postgres -d postgres --clean --if-exists < "${DUMP_PATH}"
+echo "Streaming dump into container 'eduvia-db' via pg_restore..."
+docker exec -i eduvia-db pg_restore -U postgres -d postgres --clean --if-exists < "${DUMP_PATH}"
 
 echo "Database restore completed successfully!"

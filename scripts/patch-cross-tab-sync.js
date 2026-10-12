@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const filePath = path.join(__dirname, '..', 'BrainzOS.html');
+const filePath = path.join(__dirname, '..', 'Eduvia.html');
 let content = fs.readFileSync(filePath, 'utf8');
 
 console.log('Original size:', content.length);
@@ -87,16 +87,16 @@ const syncEngineCode = `window.STATE = STATE;
 /* =========================================================================
    CROSS-TAB & FULL-STACK REALTIME SYNCHRONIZATION ENGINE
    ========================================================================= */
-const BRAINZOS_CHANNEL = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('brainzos_sync_channel') : null;
+const EDUVIA_CHANNEL = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('eduvia_sync_channel') : null;
 
 function syncCrossTabs(actionType, payload) {
-  if (BRAINZOS_CHANNEL) {
+  if (EDUVIA_CHANNEL) {
     try {
-      BRAINZOS_CHANNEL.postMessage({ type: actionType, payload: payload, timestamp: Date.now() });
+      EDUVIA_CHANNEL.postMessage({ type: actionType, payload: payload, timestamp: Date.now() });
     } catch (e) {}
   }
   try {
-    localStorage.setItem('brainzos_sync_signal', JSON.stringify({ type: actionType, payload: payload, timestamp: Date.now() }));
+    localStorage.setItem('eduvia_sync_signal', JSON.stringify({ type: actionType, payload: payload, timestamp: Date.now() }));
   } catch (e) {}
 }
 
@@ -141,14 +141,14 @@ function handleCrossTabSyncEvent(eventData) {
   }
 }
 
-if (BRAINZOS_CHANNEL) {
-  BRAINZOS_CHANNEL.onmessage = (e) => {
+if (EDUVIA_CHANNEL) {
+  EDUVIA_CHANNEL.onmessage = (e) => {
     if (e && e.data) handleCrossTabSyncEvent(e.data);
   };
 }
 
 window.addEventListener('storage', (e) => {
-  if (e.key === 'brainzos_sync_signal' && e.newValue) {
+  if (e.key === 'eduvia_sync_signal' && e.newValue) {
     try {
       const parsed = JSON.parse(e.newValue);
       handleCrossTabSyncEvent(parsed);
@@ -156,7 +156,7 @@ window.addEventListener('storage', (e) => {
   }
 });`;
 
-if (content.includes(stateMarker) && !content.includes('BRAINZOS_CHANNEL')) {
+if (content.includes(stateMarker) && !content.includes('EDUVIA_CHANNEL')) {
   content = content.replace(stateMarker, syncEngineCode);
   console.log('✓ Injected Cross-Tab Sync Engine');
 }

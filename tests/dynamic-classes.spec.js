@@ -3,10 +3,10 @@ const { test, expect } = require('@playwright/test');
 test.describe('Dynamic Class Sections & Multi-Section Isolation', () => {
 
   test('1. Add Teacher validation requires at least one class section', async ({ page }) => {
-    await page.goto('/BrainzOS.html');
+    await page.goto('/Eduvia.html');
     await expect(page.locator('#login-viewport')).toBeVisible();
 
-    await page.fill('#school-email', 'director@brainz.edu');
+    await page.fill('#school-email', 'tarini@brainzeduworld.com');
     await page.fill('#school-password', 'Password123!');
     await page.click('#continue-btn');
     await expect(page.locator('#app-viewport')).toHaveClass(/active-view/, { timeout: 10000 });
@@ -16,7 +16,7 @@ test.describe('Dynamic Class Sections & Multi-Section Isolation', () => {
 
     // Fill teacher name & email without selecting any classes
     await page.fill('#new-teacher-name', 'Prof. Zero Class');
-    await page.fill('#new-teacher-email', 'zero.class@brainz.edu');
+    await page.fill('#new-teacher-email', 'zero.class@brainzeduworld.com');
 
     // Attempt submission
     await page.click('#btn-create-teacher-submit');
@@ -31,8 +31,8 @@ test.describe('Dynamic Class Sections & Multi-Section Isolation', () => {
   });
 
   test('2. Director provisions faculty with Grade 3, Grade 8, and XII Science', async ({ page }) => {
-    await page.goto('/BrainzOS.html');
-    await page.fill('#school-email', 'director@brainz.edu');
+    await page.goto('/Eduvia.html');
+    await page.fill('#school-email', 'tarini@brainzeduworld.com');
     await page.fill('#school-password', 'Password123!');
     await page.click('#continue-btn');
     await expect(page.locator('#app-viewport')).toHaveClass(/active-view/, { timeout: 10000 });
@@ -76,7 +76,7 @@ test.describe('Dynamic Class Sections & Multi-Section Isolation', () => {
 
     // Fill teacher details
     const teacherName = 'Prof. Rajesh Sharma';
-    const teacherEmail = `rajesh.sharma.${Date.now()}@brainz.edu`;
+    const teacherEmail = `rajesh.sharma.${Date.now()}@brainzeduworld.com`;
     await page.fill('#new-teacher-name', teacherName);
     await page.fill('#new-teacher-email', teacherEmail);
 
@@ -102,8 +102,8 @@ test.describe('Dynamic Class Sections & Multi-Section Isolation', () => {
 
   test('3. Teacher sees only their assigned classes (3-A, 8-A, XII-A) and XI-B teacher cannot see them', async ({ page }) => {
     // 3a. Provision multi-class teacher first
-    await page.goto('/BrainzOS.html');
-    await page.fill('#school-email', 'director@brainz.edu');
+    await page.goto('/Eduvia.html');
+    await page.fill('#school-email', 'tarini@brainzeduworld.com');
     await page.fill('#school-password', 'Password123!');
     await page.click('#continue-btn');
     await expect(page.locator('#app-viewport')).toHaveClass(/active-view/, { timeout: 10000 });
@@ -118,7 +118,7 @@ test.describe('Dynamic Class Sections & Multi-Section Isolation', () => {
     await page.getByRole('checkbox', { name: /XII-A.*Science/ }).check();
 
     const tName = 'Dr. Meenakshi Sundaram';
-    const tEmail = `meenakshi.${Date.now()}@brainz.edu`;
+    const tEmail = `meenakshi.${Date.now()}@brainzeduworld.com`;
     await page.fill('#new-teacher-name', tName);
     await page.fill('#new-teacher-email', tEmail);
     await page.click('#btn-create-teacher-submit');
@@ -165,7 +165,7 @@ test.describe('Dynamic Class Sections & Multi-Section Isolation', () => {
     await page.locator('.header-logout-btn, button[title="Sign Out"], .user-logout-btn').first().click();
     await expect(page.locator('#login-viewport')).toBeVisible();
 
-    await page.fill('#school-email', 'teacher@brainz.edu');
+    await page.fill('#school-email', 'teacher@brainzeduworld.com');
     await page.fill('#school-password', 'Password123!');
     await page.click('#continue-btn');
     await expect(page.locator('#app-viewport')).toHaveClass(/active-view/, { timeout: 10000 });
@@ -184,8 +184,8 @@ test.describe('Dynamic Class Sections & Multi-Section Isolation', () => {
   });
 
   test('4. Director adds new class section via Manage Classes and it appears in all audited forms', async ({ page }) => {
-    await page.goto('/BrainzOS.html');
-    await page.fill('#school-email', 'director@brainz.edu');
+    await page.goto('/Eduvia.html');
+    await page.fill('#school-email', 'tarini@brainzeduworld.com');
     await page.fill('#school-password', 'Password123!');
     await page.click('#continue-btn');
     await expect(page.locator('#app-viewport')).toHaveClass(/active-view/, { timeout: 10000 });

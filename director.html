@@ -2,17 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="refresh" content="0; url=BrainzOS.html?role=director" />
-  <title>BrainzOS — Director Console (redirecting)</title>
+  <meta http-equiv="refresh" content="0; url=Eduvia.html?role=director" />
+  <title id="stub-title">Eduvia — Executive Board (redirecting)</title>
+  <script src="config.js"></script>
   <script>
     // CONSOLIDATION NOTE: The standalone Director demo console was merged into the
-    // unified BrainzOS shell to stop UI/nav drift between parallel HTML files.
+    // unified shell to stop UI/nav drift between parallel HTML files.
     // This stub preserves legacy bookmarks and links; the `role` query param
     // pre-fills the Director demo credentials on the login screen (no auto-submit).
-    window.location.replace("BrainzOS.html?role=director");
+    (function () {
+      var PRODUCT = (typeof window !== 'undefined' && window.PRODUCT_NAME) ? window.PRODUCT_NAME : 'Eduvia';
+      var SCHOOL = (typeof window !== 'undefined' && window.SCHOOL_SETTINGS && window.SCHOOL_SETTINGS.school_name)
+        ? window.SCHOOL_SETTINGS.school_name : '';
+      var parts = [PRODUCT];
+      if (SCHOOL) parts.push(SCHOOL);
+      document.getElementById('stub-title').textContent = parts.join(' — ') + ' (redirecting)';
+      var p = document.querySelector('p');
+      if (p) {
+        p.innerHTML = 'Opening the ' + PRODUCT + ' Executive Board… <a href="Eduvia.html?role=director" style="color: #6A8EAE;">Click here if not redirected automatically</a>.';
+      }
+    })();
+    window.location.replace("Eduvia.html?role=director");
   </script>
 </head>
-<body style="background-color: #1C232B; color: #D4C9B7; font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
-  <p>Opening the BrainzOS Director workspace… <a href="BrainzOS.html?role=director" style="color: #A08264;">Click here if not redirected automatically</a>.</p>
+<body style="background-color: #0A0C0F; color: #F8F4ED; font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+  <p>Opening the Eduvia Executive Board… <a href="Eduvia.html?role=director" style="color: #6A8EAE;">Click here if not redirected automatically</a>.</p>
 </body>
 </html>

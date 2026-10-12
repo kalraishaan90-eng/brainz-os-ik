@@ -1,6 +1,6 @@
-# BrainzOS Supabase Configuration
+# Eduvia Supabase Configuration
 
-This directory contains the database migrations and seed data for the **BrainzOS** school operating system.
+This directory contains the database migrations and seed data for the **Eduvia** school operating system.
 
 ## Structure
 

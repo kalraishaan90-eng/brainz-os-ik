@@ -7,9 +7,10 @@ module.exports = defineConfig({
   // solo and more under full-suite parallel load, so 30s is too tight.
   timeout: 90000,
   retries: 0,
+  workers: 1,
   webServer: {
     command: 'node scripts/serve.js',
-    url: 'http://127.0.0.1:8080/BrainzOS.html',
+    url: 'http://127.0.0.1:8080/Eduvia.html',
     reuseExistingServer: true,
     timeout: 10000
   },

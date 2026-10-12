@@ -2,25 +2,25 @@ const fs = require('fs');
 
 // 1. Update config.js
 const configContent = `/**
- * BrainzOS — Institutional Environment & Local Supabase Configuration
+ * Eduvia — Institutional Environment & Local Supabase Configuration
  * =========================================================================
  * Single-origin self-hosted configuration.
  * All traffic stays on the local school host (window.location.origin).
  * Zero cloud dependencies or external third-party telemetry.
  * =========================================================================
  */
-window.BRAINZOS_CONFIG = {
-  SUPABASE_URL: (typeof window !== 'undefined' && window.BRAINZOS_SUPABASE_URL)
+window.EDUVIA_CONFIG = {
+  SUPABASE_URL: (typeof window !== 'undefined' && window.EDUVIA_SUPABASE_URL)
     || (typeof window !== 'undefined' && window.location && window.location.origin ? window.location.origin : 'http://127.0.0.1:8080'),
-  SUPABASE_ANON_KEY: (typeof window !== 'undefined' && window.BRAINZOS_SUPABASE_ANON_KEY)
+  SUPABASE_ANON_KEY: (typeof window !== 'undefined' && window.EDUVIA_SUPABASE_ANON_KEY)
     || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDQ1ODU2MDAsImV4cCI6MjAyMDcyOTYwMH0.local-anon-token-placeholder"
 };
 `;
 fs.writeFileSync('config.js', configContent, 'utf8');
 console.log('Updated config.js to use window.location.origin');
 
-// 2. Update BrainzOS.html exportGradebookCSV and exportAuditLogsCSV
-let html = fs.readFileSync('BrainzOS.html', 'utf8').replace(/\r\n/g, '\n');
+// 2. Update Eduvia.html exportGradebookCSV and exportAuditLogsCSV
+let html = fs.readFileSync('Eduvia.html', 'utf8').replace(/\r\n/g, '\n');
 
 // Update exportGradebookCSV: remove early return when empty so empty CSV header downloads
 html = html.replace(
@@ -39,5 +39,5 @@ html = html.replace(
   const rows = (AUDIT_LOGS || []).map`
 );
 
-fs.writeFileSync('BrainzOS.html', html, 'utf8');
-console.log('Updated export functions in BrainzOS.html');
+fs.writeFileSync('Eduvia.html', html, 'utf8');
+console.log('Updated export functions in Eduvia.html');

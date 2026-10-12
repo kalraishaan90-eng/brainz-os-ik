@@ -1,5 +1,5 @@
 const fs = require('fs');
-const html = fs.readFileSync('BrainzOS.html', 'utf8');
+const html = fs.readFileSync('Eduvia.html', 'utf8');
 
 const scriptStart = html.indexOf('<script>');
 const jsPart = html.substring(scriptStart);

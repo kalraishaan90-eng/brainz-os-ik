@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-let content = fs.readFileSync('BrainzOS.html', 'utf8');
+let content = fs.readFileSync('Eduvia.html', 'utf8');
 
 // 1. handleCreateAssignment double submit disable
 content = content.replace(
@@ -128,5 +128,5 @@ content = content.replace(
 }`
 );
 
-fs.writeFileSync('BrainzOS.html', content, 'utf8');
+fs.writeFileSync('Eduvia.html', content, 'utf8');
 console.log('Double submit prevention applied successfully');

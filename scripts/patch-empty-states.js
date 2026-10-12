@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-let content = fs.readFileSync('BrainzOS.html', 'utf8');
+let content = fs.readFileSync('Eduvia.html', 'utf8');
 
 // 1. ATTENDANCE_DATA empty
 content = content.replace(
@@ -336,5 +336,5 @@ content = content.replace("Welcome back, Aarav. Here is your daily instructional
 content = content.replace("if (entry.actor.includes('Dr. Rhea') || entry.actor.includes('Director'))", "if (entry.actor.toLowerCase().includes('director'))");
 content = content.replace("Room 112 · Mrs. Sunita Sharma · Ledger Balancing &amp; Journal Entries", "Room 112 · Faculty Member · Ledger Balancing &amp; Journal Entries");
 
-fs.writeFileSync('BrainzOS.html', content, 'utf8');
-console.log('BrainzOS.html empty states and mock cleanups applied successfully.');
+fs.writeFileSync('Eduvia.html', content, 'utf8');
+console.log('Eduvia.html empty states and mock cleanups applied successfully.');

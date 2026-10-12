@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-let html = fs.readFileSync('BrainzOS.html', 'utf8').replace(/\r\n/g, '\n');
+let html = fs.readFileSync('Eduvia.html', 'utf8').replace(/\r\n/g, '\n');
 
 // 1. Update handleTeacherPageAddTest to not abort if DB fails
 const oldAddTest = `  try {
@@ -138,5 +138,5 @@ const newShowToast = `function showToast(titleOrMsg, desc, iconName = 'check') {
 console.log('Replacing showToast:', html.includes(oldShowToast));
 html = html.replace(oldShowToast, newShowToast);
 
-fs.writeFileSync('BrainzOS.html', html, 'utf8');
-console.log('Successfully patched BrainzOS.html');
+fs.writeFileSync('Eduvia.html', html, 'utf8');
+console.log('Successfully patched Eduvia.html');

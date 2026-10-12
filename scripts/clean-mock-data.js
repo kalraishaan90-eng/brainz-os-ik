@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const filePath = path.join(__dirname, '..', 'BrainzOS.html');
+const filePath = path.join(__dirname, '..', 'Eduvia.html');
 let content = fs.readFileSync(filePath, 'utf8');
 
 // 1. Static HTML text cleanups
@@ -104,4 +104,4 @@ if (venturesRegex.test(content)) {
 }
 
 fs.writeFileSync(filePath, content, 'utf8');
-console.log('Finished mock data cleanup in BrainzOS.html');
+console.log('Finished mock data cleanup in Eduvia.html');

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * scripts/check-dom-refs.js — BrainzOS DOM reference smoke test
+ * scripts/check-dom-refs.js — Eduvia DOM reference smoke test
  * ============================================================================
  * Fails the build when JavaScript references DOM targets that do not exist in
  * the page markup. This class of bug previously shipped: the teacher Class
@@ -36,11 +36,11 @@ const path = require('path');
 const REPO_ROOT = path.resolve(__dirname, '..');
 
 // Which pages to check by default. (The historical .bak snapshot copies of
-// BrainzOS.html were removed from the repo on 2026-09-28; re-add any new
+// Eduvia.html were removed from the repo on 2026-09-28; re-add any new
 // snapshot to DEFAULT_GLOBS only if it is actually part of the build.)
 const DEFAULT_GLOBS = [
   'index.html',
-  'BrainzOS.html',
+  'Eduvia.html',
   'director.html',
   'teacher.html',
   'student.html',

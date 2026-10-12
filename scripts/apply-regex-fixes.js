@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-let content = fs.readFileSync('BrainzOS.html', 'utf8');
+let content = fs.readFileSync('Eduvia.html', 'utf8');
 
 // Normalize line endings for replacement operations, or use regex with \r?\n
 function replaceChunk(pattern, replacement, name) {
@@ -200,7 +200,7 @@ replaceChunk(
   `function exportExecutiveSummary() {
   const today = new Date().toISOString().split('T')[0];
   const report = [
-    '# BrainzOS Institutional Executive Summary Packet',
+    '# Eduvia Institutional Executive Summary Packet',
     \`# Generated: \${new Date().toLocaleString()} (CBSE Computing Cluster)\`,
     \`# Authorized: Dr. Rhea Sharma (Director)\`,
     '',
@@ -282,5 +282,5 @@ replaceChunk(
   'submitSupportTicket'
 );
 
-fs.writeFileSync('BrainzOS.html', content, 'utf8');
+fs.writeFileSync('Eduvia.html', content, 'utf8');
 console.log('Regex update complete');

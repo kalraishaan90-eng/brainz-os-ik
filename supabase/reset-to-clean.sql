@@ -1,5 +1,5 @@
 -- =============================================================================
--- BrainzOS — Database Reset to Clean Production Baseline (DEVELOPMENT ONLY)
+-- Eduvia — Database Reset to Clean Production Baseline (DEVELOPMENT ONLY)
 -- =============================================================================
 -- WARNING: DANGEROUS SCRIPT!
 -- This script completely erases all user accounts, students, faculty, grades,
@@ -65,5 +65,5 @@ COMMIT;
 -- Verification Notice
 DO $$
 BEGIN
-    RAISE NOTICE 'BrainzOS database wiped clean. Foundational houses and clubs initialized with 0 points. Database is ready for one-time bootstrap-director.';
+    RAISE NOTICE 'Eduvia database wiped clean. Foundational houses and clubs initialized with 0 points. Database is ready for one-time bootstrap-director.';
 END $$;

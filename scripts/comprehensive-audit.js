@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const content = fs.readFileSync('BrainzOS.html', 'utf8');
+const content = fs.readFileSync('Eduvia.html', 'utf8');
 
 // Find all HTML elements that are interactive:
 // 1. <button ...>...</button>

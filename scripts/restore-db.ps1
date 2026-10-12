@@ -1,5 +1,5 @@
 # =============================================================================
-# BrainzOS — One-Command Database Restore Script (Windows PowerShell)
+# Eduvia — One-Command Database Restore Script (Windows PowerShell)
 # =============================================================================
 # Usage: powershell -File scripts/restore-db.ps1 -DumpPath "path\to\backup.dump"
 # =============================================================================
@@ -16,7 +16,7 @@ if (!(Test-Path $DumpPath)) {
     exit 1
 }
 
-Write-Warning "Restoring will OVERWRITE existing data in container 'brainzos-db'!"
+Write-Warning "Restoring will OVERWRITE existing data in container 'eduvia-db'!"
 $Confirm = Read-Host "Type 'RESTORE' to proceed"
 
 if ($Confirm -ne "RESTORE") {
@@ -24,7 +24,7 @@ if ($Confirm -ne "RESTORE") {
     exit 0
 }
 
-Write-Host "Restoring database from $DumpPath into 'brainzos-db'..."
-Get-Content -Path $DumpPath -Raw -Encoding Byte | & docker exec -i brainzos-db pg_restore -U postgres -d postgres --clean --if-exists
+Write-Host "Restoring database from $DumpPath into 'eduvia-db'..."
+Get-Content -Path $DumpPath -Raw -Encoding Byte | & docker exec -i eduvia-db pg_restore -U postgres -d postgres --clean --if-exists
 
 Write-Host "Database restore completed successfully!"

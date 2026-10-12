@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const html = fs.readFileSync('BrainzOS.html', 'utf8');
+const html = fs.readFileSync('Eduvia.html', 'utf8');
 
 // Separate HTML markup from script
 const scriptStart = html.indexOf('<script>');

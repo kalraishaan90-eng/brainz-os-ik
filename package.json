@@ -1,8 +1,8 @@
 {
-  "name": "brainzos",
+  "name": "eduvia",
   "version": "1.0.0",
   "private": true,
-  "description": "BrainzOS — unified institutional shell (BrainzOS.html) + Supabase backend. Static deploy; no build step.",
+  "description": "Eduvia — unified institutional shell (Eduvia.html) + Supabase backend. Static deploy; no build step.",
   "scripts": {
     "start": "node scripts/serve.js",
     "test": "npx playwright test"

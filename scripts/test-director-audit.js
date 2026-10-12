@@ -5,8 +5,8 @@ const { chromium } = require('playwright');
   const context = await browser.newContext({ viewport: { width: 1280, height: 800 } });
   const page = await context.newPage();
 
-  console.log('Navigating to http://127.0.0.1:3000/BrainzOS.html...');
-  await page.goto('http://127.0.0.1:3000/BrainzOS.html');
+  console.log('Navigating to http://127.0.0.1:3000/Eduvia.html...');
+  await page.goto('http://127.0.0.1:3000/Eduvia.html');
 
   // Fill director credentials
   await page.fill('#school-email', 'director@brainz.edu');

@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CAMPUSLY // Exhibition Posters (Maximalist Edition)</title>
+  <!-- Google Fonts: Editorial Serif + Brutalist Monospace + Display Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;500;800;900&family=Space+Grotesk:wght@400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    /* =========================================================================
+       CAMPUSLY OFFICIAL COLOR SYSTEM & MAXIMALIST EXHIBITION VARIABLES
+       ========================================================================= */
+    :root {
+      --color-cream: #0A0C0F;      /* Foundation Deep Obsidian Void */
+      --color-blue: #6A8EAE;       /* Electric / Technical Cerulean */
+      --color-beige: #D4C9B7;      /* Warm Sand & Metallic Cream Specular */
+      --color-sage: #9EBBAF;       /* Kinetic Jade & Synaptic Sage */
+      --color-offwhite: #F8F4ED;   /* Editorial Blinding Parchment White */
+      --color-ink-muted: #A2ACB8;  /* Technical Slate */
+      --color-ink-subtle: #707C88; /* Shadow Grid Line */
+      
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-display: 'Cinzel', serif;
+      --font-grotesk: 'Space Grotesk', sans-serif;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: #030406;
+      color: var(--color-offwhite);
+      font-family: var(--font-sans);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      gap: 50px;
+    }
+
+    /* Controls Bar (Hidden during Print) */
+    .screen-header {
+      width: 100%;
+      max-width: 900px;
+      background: rgba(18, 22, 28, 0.85);
+      border: 1px solid rgba(106, 142, 174, 0.3);
+      padding: 24px 32px;
+      border-radius: 16px;
+      backdrop-filter: blur(20px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 30px rgba(106, 142, 174, 0.15);
+    }
+
+    .header-text h1 {
+      font-family: var(--font-grotesk);
+      font-size: 24px;
+      letter-spacing: -0.5px;
+      color: var(--color-offwhite);
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+
+    .header-text p {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--color-beige);
+      margin-top: 4px;
+    }
+
+    .btn-print {
+      background: linear-gradient(135deg, var(--color-blue), #4f7393);
+      color: var(--color-offwhite);
+      font-family: var(--font-grotesk);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 14px 28px;
+      border: 1px solid var(--color-beige);
+      border-radius: 100px;
+      cursor: pointer;
+      box-shadow: 0 0 25px rgba(106, 142, 174, 0.4);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-print:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 0 35px rgba(106, 142, 174, 0.7);
+      background: var(--color-blue);
+    }
+
+    /* Print Page Dimensions (A3 / Tabloid scaled proportions: 800px x 1131px ~ 1:1.414) */
+    .poster-canvas {
+      width: 800px;
+      height: 1131px;
+      background: var(--color-cream);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.95), 0 0 50px rgba(106, 142, 174, 0.12);
+      border: 1px solid rgba(212, 201, 183, 0.25);
+      page-break-after: always;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 46px;
+    }
+
+    /* =========================================================================
+       MAXIMALIST TEXTURE LAYERS & BACKGROUND OVERLAYS
+       ========================================================================= */
+    .grain-layer {
+      position: absolute;
+      inset: 0;
+      opacity: 0.08;
+      pointer-events: none;
+      background-image: radial-gradient(var(--color-offwhite) 1px, transparent 1px);
+      background-size: 4px 4px;
+      z-index: 2;
+    }
+
+    .grid-matrix {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(106, 142, 174, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(106, 142, 174, 0.07) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .diagonal-hatch {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(212, 201, 183, 0.03),
+        rgba(212, 201, 183, 0.03) 2px,
+        transparent 2px,
+        transparent 14px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Framing technical tick marks */
+    .corner-tick {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: var(--color-beige);
+      border-style: solid;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .corner-tl { top: 20px; left: 20px; border-width: 2px 0 0 2px; }
+    .corner-tr { top: 20px; right: 20px; border-width: 2px 2px 0 0; }
+    .corner-bl { bottom: 20px; left: 20px; border-width: 0 0 2px 2px; }
+    .corner-br { bottom: 20px; right: 20px; border-width: 0 2px 2px 0; }
+
+    /* Crosshairs */
+    .crosshair {
+      position: absolute;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: rgba(212, 201, 183, 0.45);
+      z-index: 10;
+      letter-spacing: 1px;
+    }
+
+    /* =========================================================================
+       POSTER 1: THE SYNAPSE PROTOCOL (ACADEMIC ARCHITECTURE & AI)
+       ========================================================================= */
+    #poster-1 {
+      background: radial-gradient(circle at 85% 15%, rgba(106, 142, 174, 0.28) 0%, transparent 60%),
+                  radial-gradient(circle at 10% 80%, rgba(158, 187, 175, 0.22) 0%, transparent 55%),
+                  #0A0C0F;
+    }
+
+    .p1-header {
+      z-index: 5;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--color-beige);
+      padding-bottom: 16px;
+    }
+
+    .p1-massive-title {
+      z-index: 5;
+      margin-top: 24px;
+      position: relative;
+    }
+
+    .p1-massive-title .sub-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 4px;
+      color: var(--color-sage);
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 8px;
+      background: rgba(158, 187, 175, 0.12);
+      padding: 3px 10px;
+      border: 1px solid rgba(158, 187, 175, 0.3);
+    }
+
+    .p1-massive-title h1 {
+      font-family: var(--font-display);
+      font-size: 82px;
+      line-height: 0.88;
+      font-weight: 900;
+      letter-spacing: -2px;
+      color: var(--color-offwhite);
+      text-transform: uppercase;
+      text-shadow: 0 0 35px rgba(106, 142, 174, 0.4);
+    }
+
+    .p1-massive-title h1 span.highlight {
+      color: var(--color-blue);
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 1px;
+    }
+
+    /* Giant Central Maximalist Graphic */
+    .p1-core-visual {
+      position: relative;
+      height: 480px;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .p1-orbit-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px dashed rgba(106, 142, 174, 0.35);
+    }
+    .p1-orbit-1 { width: 440px; height: 440px; animation: spinClockwise 60s linear infinite; }
+    .p1-orbit-2 { width: 330px; height: 330px; border-color: rgba(212, 201, 183, 0.4); border-style: solid; }
+    .p1-orbit-3 { width: 220px; height: 220px; border-color: rgba(158, 187, 175, 0.5); border-width: 2px; }
+
+    .p1-core-glyph {
+      width: 130px;
+      height: 130px;
+      background: linear-gradient(135deg, rgba(106, 142, 174, 0.25), rgba(158, 187, 175, 0.35));
+      border: 2px solid var(--color-beige);
+      backdrop-filter: blur(12px);
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 50px rgba(106, 142, 174, 0.5);
+      position: relative;
+    }
+
+    .p1-core-glyph span {
+      font-family: var(--font-display);
+      font-size: 70px;
+      font-weight: 900;
+      color: var(--color-offwhite);
+      line-height: 1;
+    }
+
+    .p1-floating-card {
+      position: absolute;
+      background: rgba(18, 22, 28, 0.88);
+      border: 1px solid var(--color-blue);
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-offwhite);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      z-index: 6;
+    }
+    .p1-card-1 { top: 20px; left: 10px; border-left: 4px solid var(--color-sage); }
+    .p1-card-2 { bottom: 40px; right: 20px; border-right: 4px solid var(--color-beige); text-align: right; }
+    .p1-card-3 { top: 70px; right: 0px; border-color: var(--color-sage); }
+
+    .p1-data-strip {
+      z-index: 5;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      border-top: 1px solid rgba(212, 201, 183, 0.2);
+      border-bottom: 1px solid rgba(212, 201, 183, 0.2);
+      padding: 16px 0;
+      background: rgba(10, 12, 15, 0.6);
+    }
+
+    .p1-stat-cell h3 {
+      font-family: var(--font-mono);
+      font-size: 26px;
+      color: var(--color-beige);
+      font-weight: 700;
+    }
+
+    .p1-stat-cell p {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--color-ink-muted);
+      margin-top: 2px;
+    }
+
+    .p1-footer {
+      z-index: 5;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-top: 14px;
+    }
+
+    .barcode {
+      display: flex;
+      gap: 3px;
+      height: 38px;
+      align-items: flex-end;
+    }
+    .barcode span {
+      background: var(--color-beige);
+      width: 2px;
+      height: 100%;
+    }
+    .barcode span.thick { width: 5px; }
+    .barcode span.med { width: 3px; }
+    .barcode span.short { height: 60%; }
+
+    /* =========================================================================
+       POSTER 2: THE NEURAL CURRICULUM (ACADEMIC OPERATING SYSTEM)
+       ========================================================================= */
+    #poster-2 {
+      background: radial-gradient(ellipse at center, rgba(106, 142, 174, 0.2) 0%, transparent 70%),
+                  radial-gradient(circle at bottom left, rgba(212, 201, 183, 0.15) 0%, transparent 60%),
+                  #0A0C0F;
+    }
+
+    .p2-super-typo {
+      z-index: 5;
+      position: relative;
+    }
+
+    .p2-super-typo .huge-word {
+      font-family: var(--font-grotesk);
+      font-size: 102px;
+      line-height: 0.82;
+      font-weight: 900;
+      letter-spacing: -4px;
+      text-transform: uppercase;
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--color-offwhite);
+      display: block;
+    }
+
+    .p2-super-typo .solid-word {
+      font-family: var(--font-grotesk);
+      font-size: 98px;
+      line-height: 0.82;
+      font-weight: 900;
+      letter-spacing: -3px;
+      text-transform: uppercase;
+      color: var(--color-offwhite);
+      display: block;
+      margin-top: 6px;
+    }
+
+    .p2-super-typo .script-word {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 78px;
+      color: var(--color-beige);
+      position: absolute;
+      right: 10px;
+      bottom: -22px;
+      z-index: 6;
+      text-shadow: 0 4px 15px rgba(0,0,0,0.9);
+    }
+
+    .p2-diagram-grid {
+      z-index: 5;
+      height: 480px;
+      border: 1px solid rgba(106, 142, 174, 0.3);
+      position: relative;
+      margin: 32px 0 20px 0;
+      background: rgba(14, 18, 24, 0.7);
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      padding: 24px;
+      gap: 20px;
+    }
+
+    .p2-wireframe-box {
+      border: 1px dashed rgba(212, 201, 183, 0.35);
+      position: relative;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .p2-vector-nodes {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .p2-node-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .node-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--color-blue);
+      border: 2px solid var(--color-offwhite);
+      box-shadow: 0 0 10px var(--color-blue);
+    }
+    .node-dot.sage { background: var(--color-sage); box-shadow: 0 0 10px var(--color-sage); }
+    .node-dot.beige { background: var(--color-beige); box-shadow: 0 0 10px var(--color-beige); }
+
+    .node-bar {
+      flex: 1;
+      height: 28px;
+      background: rgba(106, 142, 174, 0.12);
+      border: 1px solid rgba(106, 142, 174, 0.3);
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-beige);
+      justify-content: space-between;
+    }
+
+    .p2-sidebar-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .feed-card {
+      background: rgba(10, 12, 15, 0.85);
+      border: 1px solid rgba(158, 187, 175, 0.25);
+      padding: 12px;
+      border-radius: 6px;
+    }
+
+    .feed-card .fc-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--color-sage);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .feed-card .fc-val {
+      font-family: var(--font-grotesk);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-offwhite);
+      margin: 4px 0;
+    }
+
+    .p2-quote-banner {
+      z-index: 5;
+      border-left: 3px solid var(--color-sage);
+      padding-left: 18px;
+      margin-bottom: 10px;
+    }
+
+    .p2-quote-banner p {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-style: italic;
+      color: var(--color-offwhite);
+      line-height: 1.25;
+    }
+
+    /* =========================================================================
+       POSTER 3: MAXIMUM COGNITION / TOTAL CAMPUS INTELLIGENCE
+       ========================================================================= */
+    #poster-3 {
+      background: radial-gradient(circle at 50% 40%, rgba(158, 187, 175, 0.22) 0%, transparent 65%),
+                  radial-gradient(circle at 80% 90%, rgba(106, 142, 174, 0.25) 0%, transparent 50%),
+                  #0A0C0F;
+    }
+
+    .p3-hero-layout {
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .p3-headline-stack {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .p3-headline-stack .banner-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--color-beige);
+      color: #0A0C0F;
+      padding: 5px 14px;
+      font-family: var(--font-grotesk);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      width: fit-content;
+      margin-bottom: 12px;
+    }
+
+    .p3-headline-stack h1 {
+      font-family: var(--font-grotesk);
+      font-size: 76px;
+      line-height: 0.88;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: var(--color-offwhite);
+    }
+
+    .p3-headline-stack h1 .gradient-text {
+      background: linear-gradient(90deg, var(--color-offwhite), var(--color-blue), var(--color-sage));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .p3-visual-centerpiece {
+      position: relative;
+      height: 480px;
+      border: 1px solid var(--color-beige);
+      margin: 10px 0;
+      background: 
+        radial-gradient(circle at center, rgba(106, 142, 174, 0.3) 0%, transparent 60%),
+        rgba(10, 12, 15, 0.95);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Target / Radar Reticle */
+    .radar-circle {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(212, 201, 183, 0.2);
+    }
+    .rc-1 { width: 520px; height: 520px; }
+    .rc-2 { width: 380px; height: 380px; border-style: dashed; }
+    .rc-3 { width: 220px; height: 220px; border-color: rgba(106, 142, 174, 0.6); }
+
+    .target-axis-x { position: absolute; width: 100%; height: 1px; background: rgba(212, 201, 183, 0.25); }
+    .target-axis-y { position: absolute; height: 100%; width: 1px; background: rgba(212, 201, 183, 0.25); }
+
+    .p3-emblem-box {
+      z-index: 5;
+      text-align: center;
+      background: rgba(18, 22, 28, 0.9);
+      border: 2px solid var(--color-blue);
+      padding: 30px 40px;
+      border-radius: 18px;
+      box-shadow: 0 0 60px rgba(106, 142, 174, 0.4);
+    }
+
+    .p3-emblem-box .eb-sub {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--color-sage);
+      text-transform: uppercase;
+    }
+
+    .p3-emblem-box .eb-title {
+      font-family: var(--font-display);
+      font-size: 46px;
+      color: var(--color-offwhite);
+      margin: 6px 0;
+      letter-spacing: 2px;
+    }
+
+    .p3-emblem-box .eb-desc {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--color-beige);
+      max-width: 240px;
+      margin: 0 auto;
+      line-height: 1.4;
+    }
+
+    .p3-matrix-columns {
+      z-index: 5;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .p3-col-card {
+      background: rgba(18, 22, 28, 0.7);
+      border: 1px solid rgba(106, 142, 174, 0.2);
+      padding: 12px 10px;
+      border-radius: 6px;
+    }
+
+    .p3-col-card .tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--color-beige);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .p3-col-card .title {
+      font-family: var(--font-grotesk);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-offwhite);
+    }
+
+    /* =========================================================================
+       POSTER 4: THE DECENTRALIZED ACADEMY (BRUTALIST ARCHIVAL)
+       ========================================================================= */
+    #poster-4 {
+      background: linear-gradient(180deg, rgba(10, 12, 15, 0.95) 0%, rgba(14, 18, 24, 0.98) 100%), #0A0C0F;
+      border: 2px solid var(--color-beige);
+    }
+
+    .p4-marquee {
+      z-index: 5;
+      border-top: 1px solid var(--color-beige);
+      border-bottom: 1px solid var(--color-beige);
+      padding: 8px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      margin-bottom: 14px;
+    }
+
+    .p4-marquee span {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      color: var(--color-beige);
+      text-transform: uppercase;
+      display: inline-block;
+      margin-right: 40px;
+    }
+
+    .p4-huge-serif {
+      z-index: 5;
+      text-align: center;
+      margin: 10px 0 24px 0;
+    }
+
+    .p4-huge-serif h1 {
+      font-family: var(--font-serif);
+      font-size: 88px;
+      line-height: 0.92;
+      font-weight: 400;
+      color: var(--color-offwhite);
+      letter-spacing: -1px;
+    }
+
+    .p4-huge-serif h1 em {
+      font-style: italic;
+      color: var(--color-sage);
+      text-decoration: underline;
+      text-decoration-color: rgba(212, 201, 183, 0.5);
+      text-underline-offset: 8px;
+    }
+
+    .p4-split-arena {
+      z-index: 5;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      height: 480px;
+      margin-bottom: 20px;
+    }
+
+    .p4-arena-col {
+      background: rgba(18, 22, 28, 0.8);
+      border: 1px solid rgba(212, 201, 183, 0.25);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .p4-arena-col.highlight-col {
+      background: rgba(106, 142, 174, 0.1);
+      border-color: var(--color-blue);
+    }
+
+    .p4-spec-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .p4-spec-item {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      border-bottom: 1px dashed rgba(248, 244, 237, 0.15);
+      padding-bottom: 6px;
+    }
+    .p4-spec-item span:first-child { color: var(--color-ink-muted); }
+    .p4-spec-item span:last-child { color: var(--color-offwhite); font-weight: 700; }
+
+    .p4-manifesto-box {
+      margin-top: auto;
+      border-left: 2px solid var(--color-blue);
+      padding-left: 12px;
+    }
+
+    .p4-manifesto-box p {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--color-beige);
+    }
+
+    .p4-footer-banner {
+      z-index: 5;
+      background: var(--color-offwhite);
+      color: #0A0C0F;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .p4-footer-banner h2 {
+      font-family: var(--font-grotesk);
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+    }
+
+    .p4-footer-banner .pill {
+      background: #0A0C0F;
+      color: var(--color-beige);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-weight: 700;
+    }
+
+    /* =========================================================================
+       PRINT AND MEDIA OPTIMIZATION (Strict Single-Page Split for High-Res PDF)
+       ========================================================================= */
+    @media print {
+      body {
+        padding: 0 !important;
+        margin: 0 !important;
+        background: none !important;
+        gap: 0 !important;
+      }
+
+      .screen-header {
+        display: none !important;
+      }
+
+      .poster-canvas {
+        margin: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        page-break-after: always !important;
+        page-break-inside: avoid !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+
+    @page {
+      size: A3 portrait;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen Header & Actions -->
+  <div class="screen-header">
+    <div class="header-text">
+      <h1>Campusly Exhibition Posters</h1>
+      <p>4 High-Impact Maximalist Gallery Prints &bull; Official Color Palette</p>
+    </div>
+    <button class="btn-print" onclick="window.print()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+      Download / Save as PDF
+    </button>
+  </div>
+
+  <!-- =========================================================================
+       POSTER 1: THE SYNAPSE PROTOCOL
+       ========================================================================= -->
+  <div class="poster-canvas" id="poster-1">
+    <div class="grain-layer"></div>
+    <div class="grid-matrix"></div>
+    <div class="diagonal-hatch"></div>
+
+    <!-- Framing Crosshairs -->
+    <div class="corner-tick corner-tl"></div>
+    <div class="corner-tick corner-tr"></div>
+    <div class="corner-tick corner-bl"></div>
+    <div class="corner-tick corner-br"></div>
+    <div class="crosshair" style="top: 24px; left: 50%; transform: translateX(-50%);">+ SEC: 01 // EXHIBIT ARCHIVE +</div>
+
+    <!-- Header Meta -->
+    <div class="p1-header">
+      <div>
+        <div style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; color: var(--color-blue); font-weight: 700;">CAMPUSLY OPERATING SYSTEM</div>
+        <div style="font-family: var(--font-sans); font-size: 12px; color: var(--color-beige); margin-top: 2px;">THE COGNITIVE ACADEMIC RUNTIME</div>
+      </div>
+      <div style="text-align: right; font-family: var(--font-mono); font-size: 11px; color: var(--color-sage);">
+        LOC: EXPO_HALL_A<br>FREQ: 98.4 MHZ
+      </div>
+    </div>
+
+    <!-- Massive Title -->
+    <div class="p1-massive-title">
+      <span class="sub-tag">Institutional Genesis &bull; v2.4</span>
+      <h1>CAMPUSLY<br><span class="highlight">Intelligence</span><br>UNLEASHED.</h1>
+    </div>
+
+    <!-- Centerpiece Maximalist Graphic -->
+    <div class="p1-core-visual">
+      <div class="p1-orbit-ring p1-orbit-1"></div>
+      <div class="p1-orbit-ring p1-orbit-2"></div>
+      <div class="p1-orbit-ring p1-orbit-3"></div>
+
+      <div class="p1-core-glyph">
+        <span>C</span>
+      </div>
+
+      <!-- Floating HUD cards -->
+      <div class="p1-floating-card p1-card-1">
+        <span style="color: var(--color-sage); font-weight: 700;">[SYNAPSE_NODE]</span><br>
+        STUDENT TELEMETRY: 99.8%<br>
+        ZERO DATA ISOLATION
+      </div>
+
+      <div class="p1-floating-card p1-card-2">
+        <span style="color: var(--color-beige); font-weight: 700;">// ATTENDANCE ENGINE</span><br>
+        GEO-VERIFIED PASSES<br>
+        LATENCY: &lt; 14ms
+      </div>
+
+      <div class="p1-floating-card p1-card-3">
+        STATUS: ONLINE<br>
+        <span style="color: var(--color-blue);">AI_CURRICULUM ACTIVE</span>
+      </div>
+    </div>
+
+    <!-- Data Strip -->
+    <div class="p1-data-strip">
+      <div class="p1-stat-cell">
+        <h3>10,000+</h3>
+        <p>Connected Minds</p>
+      </div>
+      <div class="p1-stat-cell">
+        <h3>0.00s</h3>
+        <p>Institutional Friction</p>
+      </div>
+      <div class="p1-stat-cell">
+        <h3>100%</h3>
+        <p>Autonomous Sync</p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="p1-footer">
+      <div>
+        <div style="font-family: var(--font-grotesk); font-size: 14px; font-weight: 900; letter-spacing: 1px; color: var(--color-offwhite);">
+          DESIGNED FOR UNIVERSITIES &bull; BUILT FOR THE FUTURE
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 10px; color: var(--color-ink-muted); margin-top: 4px;">
+          CAMPUSLY TECHNOLOGIES &copy; 2026. ALL RIGHTS RESERVED.
+        </div>
+      </div>
+      <div class="barcode">
+        <span></span><span class="thick"></span><span></span><span class="med"></span>
+        <span class="thick"></span><span class="short"></span><span></span><span class="thick"></span>
+        <span></span><span class="med"></span><span></span><span class="thick"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       POSTER 2: THE NEURAL CURRICULUM
+       ========================================================================= */
+  -->
+  <div class="poster-canvas" id="poster-2">
+    <div class="grain-layer"></div>
+    <div class="grid-matrix"></div>
+
+    <div class="corner-tick corner-tl"></div>
+    <div class="corner-tick corner-tr"></div>
+    <div class="corner-tick corner-bl"></div>
+    <div class="corner-tick corner-br"></div>
+    <div class="crosshair" style="top: 24px; left: 50%; transform: translateX(-50%);">+ SEC: 02 // PARADIGM SHIFT +</div>
+
+    <div class="p1-header" style="border-bottom: 2px solid var(--color-blue);">
+      <div style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; color: var(--color-beige);">
+        THE LEARNING MATRIX // CAMPUSLY CORE
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 11px; color: var(--color-blue); font-weight: 700;">
+        SYS_ID: 884-ED-ACAD
+      </div>
+    </div>
+
+    <!-- Brutalist Typo Stack -->
+    <div class="p2-super-typo">
+      <span class="huge-word">REWRITE</span>
+      <span class="solid-word">CAMPUS LIFE.</span>
+      <span class="script-word">Effortlessly</span>
+    </div>
+
+    <!-- Technical Blueprint Arena -->
+    <div class="p2-diagram-grid">
+      <div class="p2-wireframe-box">
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--color-blue); font-weight: 700; letter-spacing: 1.5px;">
+            // TOPOLOGY OF A MODERN CAMPUS
+          </div>
+          <div style="font-family: var(--font-sans); font-size: 12px; color: var(--color-ink-muted); margin-top: 4px;">
+            Unified director, educator, and scholar workflows on a single immutable canvas.
+          </div>
+        </div>
+
+        <div class="p2-vector-nodes">
+          <div class="p2-node-row">
+            <div class="node-dot"></div>
+            <div class="node-bar">
+              <span>ADMINISTRATIVE CLUSTER</span>
+              <span style="color: var(--color-sage);">99.98% OPTIMIZED</span>
+            </div>
+          </div>
+          <div class="p2-node-row">
+            <div class="node-dot sage"></div>
+            <div class="node-bar">
+              <span>FACULTY CURRICULUM PIPELINE</span>
+              <span style="color: var(--color-beige);">AUTOMATED EVAL</span>
+            </div>
+          </div>
+          <div class="p2-node-row">
+            <div class="node-dot beige"></div>
+            <div class="node-bar">
+              <span>SCHOLAR EXPERIENTIAL HUB</span>
+              <span style="color: var(--color-blue);">REAL-TIME TELEMETRY</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-family: var(--font-mono); font-size: 10px; color: var(--color-ink-subtle);">
+          [INPUT] ROSTER &bull; TIMETABLES &bull; ACADEMIC REGISTRY &bull; EXAMINATION REPOSITORIES
+        </div>
+      </div>
+
+      <!-- Right Feed -->
+      <div class="p2-sidebar-feed">
+        <div class="feed-card">
+          <div class="fc-tag">MODULE A // OPS</div>
+          <div class="fc-val">ZERO PAPER</div>
+          <div style="font-family: var(--font-sans); font-size: 10px; color: var(--color-ink-muted);">Automated verification chains replace manual paperwork.</div>
+        </div>
+        <div class="feed-card" style="border-color: rgba(106, 142, 174, 0.4);">
+          <div class="fc-tag">MODULE B // INSIGHT</div>
+          <div class="fc-val">PREDICTIVE</div>
+          <div style="font-family: var(--font-sans); font-size: 10px; color: var(--color-ink-muted);">Early-warning dropout prevention & attendance alerts.</div>
+        </div>
+        <div class="feed-card" style="border-color: rgba(212, 201, 183, 0.4);">
+          <div class="fc-tag">MODULE C // SECURITY</div>
+          <div class="fc-val">ROLE-GUARDED</div>
+          <div style="font-family: var(--font-sans); font-size: 10px; color: var(--color-ink-muted);">Total row-level student privacy by default.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quote Banner -->
+    <div class="p2-quote-banner">
+      <p>"Education without friction is not just a dream. It is an operating system."</p>
+    </div>
+
+    <div class="p1-footer" style="border-top: 1px solid rgba(212, 201, 183, 0.2);">
+      <div style="font-family: var(--font-mono); font-size: 11px; color: var(--color-beige);">
+        CAMPUSLY &bull; THE NEXT GENERATION LEARNING FABRIC
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 11px; color: var(--color-sage);">
+        POSTER 02 / 04
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       POSTER 3: MAXIMUM COGNITION / CAMPUS INTELLIGENCE
+       ========================================================================= */
+  -->
+  <div class="poster-canvas" id="poster-3">
+    <div class="grain-layer"></div>
+    <div class="grid-matrix"></div>
+    <div class="diagonal-hatch"></div>
+
+    <div class="corner-tick corner-tl"></div>
+    <div class="corner-tick corner-tr"></div>
+    <div class="corner-tick corner-bl"></div>
+    <div class="corner-tick corner-br"></div>
+    <div class="crosshair" style="top: 24px; left: 50%; transform: translateX(-50%);">+ SEC: 03 // TOTAL SYNCHRONIZATION +</div>
+
+    <div class="p3-hero-layout">
+      <div class="p3-headline-stack">
+        <div class="banner-badge">NEXT-ERA ACADEMIC INFRASTRUCTURE</div>
+        <h1>
+          THE NEW REALITY<br>
+          OF <span class="gradient-text">EDUCATION.</span>
+        </h1>
+      </div>
+    </div>
+
+    <!-- Radar Target Reticle Graphic -->
+    <div class="p3-visual-centerpiece">
+      <div class="radar-circle rc-1"></div>
+      <div class="radar-circle rc-2"></div>
+      <div class="radar-circle rc-3"></div>
+      <div class="target-axis-x"></div>
+      <div class="target-axis-y"></div>
+
+      <div class="p3-emblem-box">
+        <div class="eb-sub">ENTERPRISE ACADEMIC PLATFORM</div>
+        <div class="eb-title">CAMPUSLY</div>
+        <div class="eb-desc">
+          One cohesive ecosystem uniting students, educators, and institutional leadership.
+        </div>
+      </div>
+
+      <div style="position: absolute; bottom: 16px; left: 24px; font-family: var(--font-mono); font-size: 10px; color: var(--color-blue);">
+        RADAR: ACTIVE SCANNING [41.8781&deg; N, 87.6298&deg; W]
+      </div>
+      <div style="position: absolute; top: 16px; right: 24px; font-family: var(--font-mono); font-size: 10px; color: var(--color-sage);">
+        THROUGHPUT: REAL-TIME TELEMETRY
+      </div>
+    </div>
+
+    <!-- Four Pillars Matrix -->
+    <div class="p3-matrix-columns">
+      <div class="p3-col-card">
+        <span class="tag">01 // ADAPT</span>
+        <div class="title">Dynamic Timetable</div>
+      </div>
+      <div class="p3-col-card">
+        <span class="tag">02 // SCALE</span>
+        <div class="title">Multi-Cohort Sync</div>
+      </div>
+      <div class="p3-col-card">
+        <span class="tag">03 // SHIELD</span>
+        <div class="title">Zero-Trust Guard</div>
+      </div>
+      <div class="p3-col-card">
+        <span class="tag">04 // LEAD</span>
+        <div class="title">Executive Insights</div>
+      </div>
+    </div>
+
+    <div class="p1-footer" style="border-top: 1px solid rgba(106, 142, 174, 0.3);">
+      <div>
+        <div style="font-family: var(--font-grotesk); font-size: 13px; font-weight: 800; color: var(--color-offwhite);">
+          EXPERIENCE THE CAMPUSLY INTERFACE TODAY
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 10px; color: var(--color-beige); margin-top: 2px;">
+          DISCOVER LIVE DEMOS AT BOOTH #42 &bull; ANNUAL INNOVATION EXPO
+        </div>
+      </div>
+      <div class="barcode">
+        <span class="thick"></span><span></span><span class="thick"></span><span class="short"></span>
+        <span></span><span class="med"></span><span></span><span class="thick"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       POSTER 4: THE DECENTRALIZED ACADEMY (BRUTALIST ARCHIVAL)
+       ========================================================================= */
+  -->
+  <div class="poster-canvas" id="poster-4">
+    <div class="grain-layer"></div>
+    <div class="diagonal-hatch"></div>
+
+    <div class="corner-tick corner-tl"></div>
+    <div class="corner-tick corner-tr"></div>
+    <div class="corner-tick corner-bl"></div>
+    <div class="corner-tick corner-br"></div>
+    <div class="crosshair" style="top: 24px; left: 50%; transform: translateX(-50%);">+ SEC: 04 // THE MANIFESTO +</div>
+
+    <div class="p4-marquee">
+      <span>CAMPUSLY</span><span>&bull;</span>
+      <span>INTELLIGENCE REDEFINED</span><span>&bull;</span>
+      <span>SEAMLESS INSTITUTIONS</span><span>&bull;</span>
+      <span>FRICTIONLESS FUTURE</span><span>&bull;</span>
+      <span>OPERATIONAL HARMONY</span><span>&bull;</span>
+      <span>CAMPUSLY</span>
+    </div>
+
+    <!-- Editorial Centerpiece Typography -->
+    <div class="p4-huge-serif">
+      <div style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 4px; color: var(--color-blue); text-transform: uppercase; margin-bottom: 8px;">
+        THE ACADEMIC REVOLUTION
+      </div>
+      <h1>Every student.<br>Every teacher.<br><em>One platform.</em></h1>
+    </div>
+
+    <!-- Split Archival Arena -->
+    <div class="p4-split-arena">
+      <div class="p4-arena-col">
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--color-sage); font-weight: 700; letter-spacing: 1px;">
+            SPECIFICATION // 01
+          </div>
+          <div style="font-family: var(--font-grotesk); font-size: 18px; font-weight: 900; color: var(--color-offwhite); margin-top: 4px;">
+            BUILT FOR CAMPUS VELOCITY
+          </div>
+        </div>
+
+        <div class="p4-spec-list">
+          <div class="p4-spec-item">
+            <span>IDENTITY</span>
+            <span>INSTANT NFC / BIOMETRIC</span>
+          </div>
+          <div class="p4-spec-item">
+            <span>GRADEBOOKS</span>
+            <span>REAL-TIME CURVE CALC</span>
+          </div>
+          <div class="p4-spec-item">
+            <span>COMMUNICATION</span>
+            <span>CRYPTOGRAPHIC DISPATCH</span>
+          </div>
+          <div class="p4-spec-item">
+            <span>EXAMINATION</span>
+            <span>TAMPER-PROOF AUDIT</span>
+          </div>
+        </div>
+
+        <div style="font-family: var(--font-mono); font-size: 10px; color: var(--color-ink-subtle);">
+          REF: CAMPUSLY_ARCH_CORE_STABLE
+        </div>
+      </div>
+
+      <div class="p4-arena-col highlight-col">
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--color-beige); font-weight: 700; letter-spacing: 1px;">
+            MANIFESTO // 02
+          </div>
+          <div style="font-family: var(--font-grotesk); font-size: 18px; font-weight: 900; color: var(--color-offwhite); margin-top: 4px;">
+            THE PROMISE OF FOCUS
+          </div>
+        </div>
+
+        <div class="p4-manifesto-box">
+          <p>
+            When administrators spend less time on paperwork and teachers spend less time on attendance, education reclaims its true purpose: inspiration, discovery, and breakthrough learning.
+          </p>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(212, 201, 183, 0.3); padding-top: 12px;">
+          <span style="font-family: var(--font-mono); font-size: 11px; color: var(--color-beige);">CAMPUSLY VERIFIED</span>
+          <span style="font-family: var(--font-serif); font-size: 24px; font-style: italic; color: var(--color-offwhite);">Campusly.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Solid Contrast Bottom Banner -->
+    <div class="p4-footer-banner">
+      <div>
+        <h2>WELCOME TO THE FUTURE OF CAMPUS LIVING</h2>
+        <div style="font-family: var(--font-mono); font-size: 11px; color: #333; margin-top: 2px;">
+          VISIT CAMPUSLY AT THE ANNUAL INNOVATION SHOWCASE
+        </div>
+      </div>
+      <div class="pill">CAMPUSLY // 2026</div>
+    </div>
+  </div>
+
+</body>
+</html>

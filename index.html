@@ -2,13 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="refresh" content="0; url=BrainzOS.html" />
-  <title>BrainzOS — Institutional Operating System</title>
+  <meta http-equiv="refresh" content="0; url=Eduvia.html" />
+  <title id="stub-title">Eduvia — Institutional Operating System</title>
+  <script src="config.js"></script>
   <script>
-    window.location.replace("BrainzOS.html");
+    (function () {
+      var PRODUCT = (typeof window !== 'undefined' && window.PRODUCT_NAME) ? window.PRODUCT_NAME : 'Eduvia';
+      var SCHOOL = (typeof window !== 'undefined' && window.SCHOOL_SETTINGS && window.SCHOOL_SETTINGS.school_name)
+        ? window.SCHOOL_SETTINGS.school_name
+        : '';
+      var parts = [PRODUCT];
+      if (SCHOOL) parts.push(SCHOOL);
+      document.getElementById('stub-title').textContent = parts.join(' — ');
+      var link = document.querySelector('a[href="Eduvia.html"]');
+      if (link) link.textContent = 'Click here if not redirected automatically';
+    })();
+    window.location.replace("Eduvia.html");
   </script>
 </head>
-<body style="background-color: #1C232B; color: #D4C9B7; font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
-  <p>Initializing BrainzOS Institutional Workspace… <a href="BrainzOS.html" style="color: #6A8EAE;">Click here if not redirected automatically</a>.</p>
+<body style="background-color: #0A0C0F; color: #F8F4ED; font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+  <p>Initializing <span id="stub-product">Eduvia</span> Institutional Workspace… <a href="Eduvia.html" style="color: #6A8EAE;">Click here if not redirected automatically</a>.</p>
+  <script>
+    (function () {
+      var PRODUCT = (typeof window !== 'undefined' && window.PRODUCT_NAME) ? window.PRODUCT_NAME : 'Eduvia';
+      var el = document.getElementById('stub-product');
+      if (el) el.textContent = PRODUCT;
+    })();
+  </script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-let content = fs.readFileSync('BrainzOS.html', 'utf8');
+let content = fs.readFileSync('Eduvia.html', 'utf8');
 
 // 1. Remove Biometrics button
 const bioBtnRegex = /<!-- Decorative Biometrics Button -->[\s\S]*?<button class="btn-secondary" id="biometric-btn"[\s\S]*?<\/button>/;
@@ -309,7 +309,7 @@ const oldExportExec = `function exportExecutiveSummary() {
 const newExportExec = `function exportExecutiveSummary() {
   const today = new Date().toISOString().split('T')[0];
   const report = [
-    '# BrainzOS Institutional Executive Summary Packet',
+    '# Eduvia Institutional Executive Summary Packet',
     \`# Generated: \${new Date().toLocaleString()} (CBSE Computing Cluster)\`,
     \`# Authorized: Dr. Rhea Sharma (Director)\`,
     '',
@@ -447,5 +447,5 @@ if (content.includes(oldFilterCmd)) {
   console.warn('⚠ Could not match oldFilterCmd');
 }
 
-fs.writeFileSync('BrainzOS.html', content, 'utf8');
-console.log('Done applying updates to BrainzOS.html');
+fs.writeFileSync('Eduvia.html', content, 'utf8');
+console.log('Done applying updates to Eduvia.html');

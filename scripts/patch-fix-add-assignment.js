@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-let html = fs.readFileSync('BrainzOS.html', 'utf8').replace(/\r\n/g, '\n');
+let html = fs.readFileSync('Eduvia.html', 'utf8').replace(/\r\n/g, '\n');
 
 // 1. Add id="new-assign-submit-btn" to the modal submit button
 const oldBtn = `<button class="btn-primary" type="submit" aria-label="Confirm and publish assignment">
@@ -244,5 +244,5 @@ const newFunc = `async function handleCreateAssignment(e) {
 console.log('Replacing handleCreateAssignment:', html.includes(oldFunc));
 html = html.replace(oldFunc, newFunc);
 
-fs.writeFileSync('BrainzOS.html', html, 'utf8');
-console.log('Successfully patched handleCreateAssignment in BrainzOS.html');
+fs.writeFileSync('Eduvia.html', html, 'utf8');
+console.log('Successfully patched handleCreateAssignment in Eduvia.html');

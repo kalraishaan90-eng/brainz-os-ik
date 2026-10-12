@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
-const filePath = path.join(__dirname, '..', 'BrainzOS.html');
+const filePath = path.join(__dirname, '..', 'Eduvia.html');
 let content = fs.readFileSync(filePath, 'utf8');
 
-console.log('Starting production polish pass on BrainzOS.html...');
+console.log('Starting production polish pass on Eduvia.html...');
 
 // 1. Remove remaining CampusCart and mock ventures
 content = content.replace(
@@ -36,20 +36,20 @@ content = content.replace(
 
 // 5. In SUPABASE_CONFIG: Remove mock token and cloud URL fallback
 const oldSupabaseConfig = `const SUPABASE_CONFIG = {
-  url: (typeof window.BRAINZOS_CONFIG !== 'undefined' && window.BRAINZOS_CONFIG.SUPABASE_URL)
-    || window.BRAINZOS_SUPABASE_URL
+  url: (typeof window.EDUVIA_CONFIG !== 'undefined' && window.EDUVIA_CONFIG.SUPABASE_URL)
+    || window.EDUVIA_SUPABASE_URL
     || 'https://slqufxrmgrhcqwapkipa.supabase.co',
-  anonKey: (typeof window.BRAINZOS_CONFIG !== 'undefined' && window.BRAINZOS_CONFIG.SUPABASE_ANON_KEY)
-    || window.BRAINZOS_SUPABASE_ANON_KEY
+  anonKey: (typeof window.EDUVIA_CONFIG !== 'undefined' && window.EDUVIA_CONFIG.SUPABASE_ANON_KEY)
+    || window.EDUVIA_SUPABASE_ANON_KEY
     || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNscXVmeHJtZ3JoY3F3YXBraXBhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODc3OTAsImV4cCI6MjA2MDY2Mzc5MH0.z-Z8c6lX6Qh9-c8-mock-token-replace-with-real'
 };`;
 
 const newSupabaseConfig = `const SUPABASE_CONFIG = {
-  url: (typeof window.BRAINZOS_CONFIG !== 'undefined' && window.BRAINZOS_CONFIG.SUPABASE_URL)
-    || window.BRAINZOS_SUPABASE_URL
+  url: (typeof window.EDUVIA_CONFIG !== 'undefined' && window.EDUVIA_CONFIG.SUPABASE_URL)
+    || window.EDUVIA_SUPABASE_URL
     || window.location.origin,
-  anonKey: (typeof window.BRAINZOS_CONFIG !== 'undefined' && window.BRAINZOS_CONFIG.SUPABASE_ANON_KEY)
-    || window.BRAINZOS_SUPABASE_ANON_KEY
+  anonKey: (typeof window.EDUVIA_CONFIG !== 'undefined' && window.EDUVIA_CONFIG.SUPABASE_ANON_KEY)
+    || window.EDUVIA_SUPABASE_ANON_KEY
     || ''
 };`;
 
@@ -423,4 +423,4 @@ const loadUserHookNew = `updateRoleIndicatorUI(realRole);
 content = content.replace(loadUserHookOld, loadUserHookNew);
 
 fs.writeFileSync(filePath, content, 'utf8');
-console.log('Production polish pass successfully applied to BrainzOS.html!');
+console.log('Production polish pass successfully applied to Eduvia.html!');

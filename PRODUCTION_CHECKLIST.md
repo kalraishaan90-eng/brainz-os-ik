@@ -1,6 +1,6 @@
-# BrainzOS — Production & Pilot Readiness Audit
+# Eduvia — Production & Pilot Readiness Audit
 
-This document serves as the formal **Production Security Audit**, **Deployment Runbook**, and **Institutional IT Briefing** for launching BrainzOS in a real school pilot.
+This document serves as the formal **Production Security Audit**, **Deployment Runbook**, and **Institutional IT Briefing** for launching Eduvia in a real school pilot.
 
 ---
 
@@ -64,7 +64,7 @@ The Supabase `anon` key (`SUPABASE_ANON_KEY`) is a public JWT token. In Supabase
 - **Rule for IT Staff**: The `service_role` key bypasses RLS and must **never** be supplied to frontend code, static hosting environment variables, or GitHub repositories.
 
 #### Codebase Documentation
-Both `config.js` and `BrainzOS.html` contain explicit comments clarifying key roles and rotation steps to ensure security audits do not flag the anon key as an unintentional leak.
+Both `config.js` and `Eduvia.html` contain explicit comments clarifying key roles and rotation steps to ensure security audits do not flag the anon key as an unintentional leak.
 
 ---
 
@@ -174,38 +174,38 @@ Admin and Director routes are protected by a two-stage barrier:
 To eliminate hardcoded credentials in the application shell, credentials are now isolated into `config.js`:
 
 ```
-d:\BrainzOS/
+d:\Eduvia/
 ├── config.js          # Isolated environment config & key rotation guide
 ├── index.html         # Root host entry point with immediate redirect to shell
-├── director.html      # Legacy redirect stub -> BrainzOS.html?role=director
-├── teacher.html       # Legacy redirect stub -> BrainzOS.html?role=teacher
-├── student.html       # Legacy redirect stub -> BrainzOS.html?role=student
+├── director.html      # Legacy redirect stub -> Eduvia.html?role=director
+├── teacher.html       # Legacy redirect stub -> Eduvia.html?role=teacher
+├── student.html       # Legacy redirect stub -> Eduvia.html?role=student
 ├── vercel.json        # Vercel deployment rewrite & security headers
 ├── netlify.toml       # Netlify deployment redirect & security headers
-├── BrainzOS.html      # Unified core application shell (all roles)
+├── Eduvia.html      # Unified core application shell (all roles)
 └── supabase/          # Database migrations, triggers, and seed data
 ```
 
 ### Single-Shell Consolidation
-All role experiences (Student, Teacher, Director) live exclusively in `BrainzOS.html`.
+All role experiences (Student, Teacher, Director) live exclusively in `Eduvia.html`.
 The former standalone `director.html` / `teacher.html` / `student.html` demo consoles
 were retired to redirect stubs because parallel copies of the same pages drifted apart
 (navigation entries, feature retirements, and element ids diverging between files).
-The shell supports `BrainzOS.html?role=student|teacher|director` deep links that
+The shell supports `Eduvia.html?role=student|teacher|director` deep links that
 pre-fill the matching demo credentials on the login screen (never auto-submitting).
 Preserve the stubs so legacy bookmarks keep working; do not reintroduce role-specific
 HTML copies of pages.
 
 ### Loading Hierarchy
 ```
-window.ENV (Build/Host) ──> window.BRAINZOS_CONFIG (config.js) ──> window.BRAINZOS_SUPABASE_* (Overrides) ──> Default Fallback
+window.ENV (Build/Host) ──> window.EDUVIA_CONFIG (config.js) ──> window.EDUVIA_SUPABASE_* (Overrides) ──> Default Fallback
 ```
 
 ### Key Rotation Runbook
 If an API key is rotated in Supabase:
 1. Navigate to **Project Settings > API** in your Supabase dashboard.
 2. Generate or copy the updated **`anon` `public` key**.
-3. Update `d:\BrainzOS\config.js` (or update the environment variable in Vercel/Netlify).
+3. Update `d:\Eduvia\config.js` (or update the environment variable in Vercel/Netlify).
 4. Save and trigger a redeploy (or refresh the browser).
 
 ---
@@ -239,9 +239,9 @@ A broken reference therefore ships as a **failed deployment**, not a silently
 broken page in front of students, faculty, and directors.
 
 ### Step 1: Initialize Git Repository
-Open PowerShell or your terminal in `d:\BrainzOS`:
+Open PowerShell or your terminal in `d:\Eduvia`:
 ```bash
-cd d:\BrainzOS
+cd d:\Eduvia
 
 # Initialize git repository
 git init
@@ -256,10 +256,10 @@ git commit -m "feat: production pilot release with real Supabase backend, RLS, a
 ### Step 2: Push to GitHub
 ```bash
 # Create a repository on GitHub (using GitHub CLI or github.com)
-gh repo create BrainzOS --public --source=. --remote=origin --push
+gh repo create Eduvia --public --source=. --remote=origin --push
 
 # (OR manually add your GitHub remote):
-# git remote add origin https://github.com/<your-org-or-username>/BrainzOS.git
+# git remote add origin https://github.com/<your-org-or-username>/Eduvia.git
 # git branch -M main
 # git push -u origin main
 ```
@@ -267,7 +267,7 @@ gh repo create BrainzOS --public --source=. --remote=origin --push
 ### Step 3: Connect to Vercel (Recommended — Free Tier)
 1. Log in to [vercel.com](https://vercel.com) using your GitHub account.
 2. Click **Add New… > Project**.
-3. Import your `BrainzOS` GitHub repository.
+3. Import your `Eduvia` GitHub repository.
 4. Under **Project Settings**:
    - **Framework Preset**: Other (Static HTML).
    - **Root Directory**: `./` (Default).
@@ -275,14 +275,14 @@ gh repo create BrainzOS --public --source=. --remote=origin --push
      pre-deploy DOM smoke test — do not blank it out).
    - **Output Directory**: `./` (repo root; auto-imported from `vercel.json`).
 5. (Optional) Under **Environment Variables**, you can supply:
-   - `BRAINZOS_SUPABASE_URL` = `https://<your-project-ref>.supabase.co`
-   - `BRAINZOS_SUPABASE_ANON_KEY` = `eyJhbGciOi...`
+   - `EDUVIA_SUPABASE_URL` = `https://<your-project-ref>.supabase.co`
+   - `EDUVIA_SUPABASE_ANON_KEY` = `eyJhbGciOi...`
 6. Click **Deploy**.
-7. Vercel will provide an instant, globally CDN-distributed HTTPS URL: `https://brainzos.vercel.app`.
+7. Vercel will provide an instant, globally CDN-distributed HTTPS URL: `https://eduvia.vercel.app`.
 
 ### (Alternative) Deploy to Netlify
 1. Log in to [netlify.com](https://netlify.com) and click **Add new site > Import an existing project**.
-2. Select **GitHub** and authorize the `BrainzOS` repository.
+2. Select **GitHub** and authorize the `Eduvia` repository.
 3. Build settings are automatically detected via `netlify.toml`: the build
    command runs `npm test` (the pre-deploy DOM smoke test) and publishes the
    repo root.
@@ -311,11 +311,11 @@ gh repo create BrainzOS --public --source=. --remote=origin --push
 
 ---
 
-### Executive Summary: The Evolution of BrainzOS
+### Executive Summary: The Evolution of Eduvia
 
-During earlier prototype demonstrations, BrainzOS presented the visual design and workflow of a modern school operating system using simulated browser memory. 
+During earlier prototype demonstrations, Eduvia presented the visual design and workflow of a modern school operating system using simulated browser memory. 
 
-For this pilot launch, **BrainzOS has been fully connected to an institutional-grade, cloud-backed relational database (PostgreSQL on Supabase)**. It is no longer a visual mockup; it is a secure, authenticated multi-user system.
+For this pilot launch, **Eduvia has been fully connected to an institutional-grade, cloud-backed relational database (PostgreSQL on Supabase)**. It is no longer a visual mockup; it is a secure, authenticated multi-user system.
 
 ---
 
@@ -341,7 +341,7 @@ While this pilot release is secure, hardened, and suitable for classroom testing
 2. **Custom Institutional Domain & Single Sign-On (SSO)**:
    - Binding the application to the school’s registered domain (e.g., `https://portal.brainzschool.edu`) with Google Workspace for Education / Microsoft 365 SAML single sign-on integration.
 3. **Student Data Privacy Policy & Statutory Compliance (Mandatory Requirement)**:
-   - **Minor Data Protection**: Because BrainzOS stores records belonging to underage students, full institutional adoption legally mandates formal compliance frameworks:
+   - **Minor Data Protection**: Because Eduvia stores records belonging to underage students, full institutional adoption legally mandates formal compliance frameworks:
      - **Parental Consent Framework**: Clear consent records for digital student data storage.
      - **Data Retention & Right-to-Erasure Protocols**: Automated purging of student academic records upon graduation or institutional transfer.
      - **Vendor Data Processing Agreement (DPA)**: Signed cloud hosting agreements ensuring student academic records are never monetized, tracked for commercial advertising, or processed outside institutional boundaries.

@@ -1,8 +1,8 @@
 /**
- * BrainzOS One-Time Director Account Bootstrap CLI
+ * Eduvia One-Time Director Account Bootstrap CLI
  * =========================================================================
  * Description: Securely initializes the very first Director account on a fresh
- * self-hosted BrainzOS cluster.
+ * self-hosted Eduvia cluster.
  *
  * Security Invariants:
  * 1. Takes email and password strictly from the CLI (arguments or interactive prompt).
@@ -120,7 +120,7 @@ function parseArgs() {
 
 async function main() {
   console.log('===================================================================');
-  console.log('BrainzOS Institutional Onboarding — One-Time Director Bootstrap');
+  console.log('Eduvia Institutional Onboarding — One-Time Director Bootstrap');
   console.log('===================================================================');
 
   const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
@@ -142,11 +142,11 @@ async function main() {
 
   if (existingDirectors && existingDirectors.length > 0) {
     console.error('\n[ABORTED: SECURITY VIOLATION]');
-    console.error('A Director account is already registered on this BrainzOS cluster:');
+    console.error('A Director account is already registered on this Eduvia cluster:');
     console.error(`  - Existing Account: ${existingDirectors[0].email} (${existingDirectors[0].full_name})`);
     console.error('For institutional security, the bootstrap script is permanently locked.');
     console.error('All subsequent faculty and administrators must be provisioned through');
-    console.error('the Director Console inside BrainzOS.\n');
+    console.error('the Director Console inside Eduvia.\n');
     process.exit(1);
   }
 
@@ -228,7 +228,7 @@ async function main() {
   console.log(`  User ID:  ${userId}`);
   console.log('===================================================================');
   console.log('Notice: The bootstrap-director script is now permanently locked.');
-  console.log('You can now log in to BrainzOS using these credentials to onboard faculty.');
+  console.log('You can now log in to Eduvia using these credentials to onboard faculty.');
   console.log('===================================================================\n');
 }
 
