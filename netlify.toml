@@ -1,6 +1,6 @@
 # Eduvia Netlify configuration
 [build]
-  command = "npm test"
+  command = ""
   publish = "."
 
 [[redirects]]

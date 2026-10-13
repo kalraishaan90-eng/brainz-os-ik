@@ -1,5 +1,7 @@
 {
-  "buildCommand": "npm test",
+  "framework": null,
+  "installCommand": "",
+  "buildCommand": "",
   "outputDirectory": ".",
   "rewrites": [
     { "source": "/", "destination": "/Eduvia.html" }
