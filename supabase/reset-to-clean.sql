@@ -47,10 +47,10 @@ SET session_replication_role = 'origin';
 
 -- Insert the 4 Standard School Houses with clean 0 points baseline
 INSERT INTO public.houses (id, name, color, points) VALUES
-    ('11111111-1111-1111-1111-111111111101', 'Nalanda', '#6A8EAE', 0),
+    ('11111111-1111-1111-1111-111111111101', 'Nalanda', '#B78E79', 0),
     ('11111111-1111-1111-1111-111111111102', 'Takshashila', '#8E7C68', 0),
-    ('11111111-1111-1111-1111-111111111103', 'Vikramshila', '#D4C9B7', 0),
-    ('11111111-1111-1111-1111-111111111104', 'Vallabhi', '#9EBBAF', 0)
+    ('11111111-1111-1111-1111-111111111103', 'Vikramshila', '#414751', 0),
+    ('11111111-1111-1111-1111-111111111104', 'Vallabhi', '#919F90', 0)
 ON CONFLICT (id) DO UPDATE SET points = 0;
 
 -- Insert Standard Institutional Activity Clubs

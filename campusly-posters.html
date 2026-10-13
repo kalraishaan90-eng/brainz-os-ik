@@ -6,26 +6,26 @@
   <!-- Google Fonts: Editorial Serif + Brutalist Monospace + Display Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;500;800;900&family=Space+Grotesk:wght@400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
   
   <style>
     /* =========================================================================
        CAMPUSLY OFFICIAL COLOR SYSTEM & MAXIMALIST EXHIBITION VARIABLES
        ========================================================================= */
     :root {
-      --color-cream: #0A0C0F;      /* Foundation Deep Obsidian Void */
-      --color-blue: #6A8EAE;       /* Electric / Technical Cerulean */
-      --color-beige: #D4C9B7;      /* Warm Sand & Metallic Cream Specular */
-      --color-sage: #9EBBAF;       /* Kinetic Jade & Synaptic Sage */
-      --color-offwhite: #F8F4ED;   /* Editorial Blinding Parchment White */
-      --color-ink-muted: #A2ACB8;  /* Technical Slate */
-      --color-ink-subtle: #707C88; /* Shadow Grid Line */
+      --color-cream: #F2EDE7;      /* Foundation Deep Obsidian Void */
+      --color-blue: #B78E79;       /* Electric / Technical Cerulean */
+      --color-beige: #E8EBED;      /* Warm Sand & Metallic Cream Specular */
+      --color-sage: #919F90;       /* Kinetic Jade & Synaptic Sage */
+      --color-offwhite: #414751;   /* Editorial Blinding Parchment White */
+      --color-ink-muted: #5C6370;  /* Technical Slate */
+      --color-ink-subtle: #767E8A; /* Shadow Grid Line */
       
-      --font-serif: 'Instrument Serif', Georgia, serif;
-      --font-display: 'Cinzel', serif;
-      --font-grotesk: 'Space Grotesk', sans-serif;
-      --font-sans: 'Plus Jakarta Sans', sans-serif;
-      --font-mono: 'Space Mono', monospace;
+      --font-serif: 'Kanit', sans-serif;
+      --font-display: 'Kanit', sans-serif;
+      --font-grotesk: 'Kanit', sans-serif;
+      --font-sans: 'Kanit', sans-serif;
+      --font-mono: 'Kanit', sans-serif;
     }
 
     * {
@@ -36,7 +36,7 @@
     }
 
     body {
-      background-color: #030406;
+      background-color: #E8EBED;
       color: var(--color-offwhite);
       font-family: var(--font-sans);
       display: flex;
@@ -50,15 +50,15 @@
     .screen-header {
       width: 100%;
       max-width: 900px;
-      background: rgba(18, 22, 28, 0.85);
-      border: 1px solid rgba(106, 142, 174, 0.3);
+      background: #FFFFFF;
+      border: 1px solid rgba(183, 142, 121, 0.3);
       padding: 24px 32px;
       border-radius: 16px;
       backdrop-filter: blur(20px);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 30px rgba(106, 142, 174, 0.15);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 30px rgba(183, 142, 121, 0.15);
     }
 
     .header-text h1 {
@@ -78,7 +78,7 @@
     }
 
     .btn-print {
-      background: linear-gradient(135deg, var(--color-blue), #4f7393);
+      background: linear-gradient(135deg, var(--color-blue), #414751);
       color: var(--color-offwhite);
       font-family: var(--font-grotesk);
       font-size: 14px;
@@ -89,7 +89,7 @@
       border: 1px solid var(--color-beige);
       border-radius: 100px;
       cursor: pointer;
-      box-shadow: 0 0 25px rgba(106, 142, 174, 0.4);
+      box-shadow: 0 0 25px rgba(183, 142, 121, 0.4);
       transition: all 0.2s ease;
       display: inline-flex;
       align-items: center;
@@ -98,7 +98,7 @@
 
     .btn-print:hover {
       transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 0 35px rgba(106, 142, 174, 0.7);
+      box-shadow: 0 0 35px rgba(183, 142, 121, 0.7);
       background: var(--color-blue);
     }
 
@@ -109,8 +109,8 @@
       background: var(--color-cream);
       position: relative;
       overflow: hidden;
-      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.95), 0 0 50px rgba(106, 142, 174, 0.12);
-      border: 1px solid rgba(212, 201, 183, 0.25);
+      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.95), 0 0 50px rgba(183, 142, 121, 0.12);
+      border: 1px solid rgba(65, 71, 81, 0.25);
       page-break-after: always;
       display: flex;
       flex-direction: column;
@@ -135,8 +135,8 @@
       position: absolute;
       inset: 0;
       background-image: 
-        linear-gradient(rgba(106, 142, 174, 0.07) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(106, 142, 174, 0.07) 1px, transparent 1px);
+        linear-gradient(rgba(183, 142, 121, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(183, 142, 121, 0.07) 1px, transparent 1px);
       background-size: 32px 32px;
       pointer-events: none;
       z-index: 1;
@@ -147,8 +147,8 @@
       inset: 0;
       background: repeating-linear-gradient(
         45deg,
-        rgba(212, 201, 183, 0.03),
-        rgba(212, 201, 183, 0.03) 2px,
+        rgba(65, 71, 81, 0.03),
+        rgba(65, 71, 81, 0.03) 2px,
         transparent 2px,
         transparent 14px
       );
@@ -176,7 +176,7 @@
       position: absolute;
       font-family: var(--font-mono);
       font-size: 11px;
-      color: rgba(212, 201, 183, 0.45);
+      color: rgba(65, 71, 81, 0.45);
       z-index: 10;
       letter-spacing: 1px;
     }
@@ -185,8 +185,8 @@
        POSTER 1: THE SYNAPSE PROTOCOL (ACADEMIC ARCHITECTURE & AI)
        ========================================================================= */
     #poster-1 {
-      background: radial-gradient(circle at 85% 15%, rgba(106, 142, 174, 0.28) 0%, transparent 60%),
-                  radial-gradient(circle at 10% 80%, rgba(158, 187, 175, 0.22) 0%, transparent 55%),
+      background: radial-gradient(circle at 85% 15%, rgba(183, 142, 121, 0.28) 0%, transparent 60%),
+                  radial-gradient(circle at 10% 80%, rgba(145, 159, 144, 0.22) 0%, transparent 55%),
                   #0A0C0F;
     }
 
@@ -212,9 +212,9 @@
       text-transform: uppercase;
       display: inline-block;
       margin-bottom: 8px;
-      background: rgba(158, 187, 175, 0.12);
+      background: rgba(145, 159, 144, 0.12);
       padding: 3px 10px;
-      border: 1px solid rgba(158, 187, 175, 0.3);
+      border: 1px solid rgba(145, 159, 144, 0.3);
     }
 
     .p1-massive-title h1 {
@@ -225,7 +225,7 @@
       letter-spacing: -2px;
       color: var(--color-offwhite);
       text-transform: uppercase;
-      text-shadow: 0 0 35px rgba(106, 142, 174, 0.4);
+      text-shadow: 0 0 35px rgba(183, 142, 121, 0.4);
     }
 
     .p1-massive-title h1 span.highlight {
@@ -251,23 +251,23 @@
     .p1-orbit-ring {
       position: absolute;
       border-radius: 50%;
-      border: 1px dashed rgba(106, 142, 174, 0.35);
+      border: 1px dashed rgba(183, 142, 121, 0.35);
     }
     .p1-orbit-1 { width: 440px; height: 440px; animation: spinClockwise 60s linear infinite; }
-    .p1-orbit-2 { width: 330px; height: 330px; border-color: rgba(212, 201, 183, 0.4); border-style: solid; }
-    .p1-orbit-3 { width: 220px; height: 220px; border-color: rgba(158, 187, 175, 0.5); border-width: 2px; }
+    .p1-orbit-2 { width: 330px; height: 330px; border-color: rgba(65, 71, 81, 0.4); border-style: solid; }
+    .p1-orbit-3 { width: 220px; height: 220px; border-color: rgba(145, 159, 144, 0.5); border-width: 2px; }
 
     .p1-core-glyph {
       width: 130px;
       height: 130px;
-      background: linear-gradient(135deg, rgba(106, 142, 174, 0.25), rgba(158, 187, 175, 0.35));
+      background: linear-gradient(135deg, rgba(183, 142, 121, 0.25), rgba(145, 159, 144, 0.35));
       border: 2px solid var(--color-beige);
       backdrop-filter: blur(12px);
       border-radius: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 50px rgba(106, 142, 174, 0.5);
+      box-shadow: 0 0 50px rgba(183, 142, 121, 0.5);
       position: relative;
     }
 
@@ -300,8 +300,8 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
-      border-top: 1px solid rgba(212, 201, 183, 0.2);
-      border-bottom: 1px solid rgba(212, 201, 183, 0.2);
+      border-top: 1px solid rgba(65, 71, 81, 0.2);
+      border-bottom: 1px solid rgba(65, 71, 81, 0.2);
       padding: 16px 0;
       background: rgba(10, 12, 15, 0.6);
     }
@@ -349,8 +349,8 @@
        POSTER 2: THE NEURAL CURRICULUM (ACADEMIC OPERATING SYSTEM)
        ========================================================================= */
     #poster-2 {
-      background: radial-gradient(ellipse at center, rgba(106, 142, 174, 0.2) 0%, transparent 70%),
-                  radial-gradient(circle at bottom left, rgba(212, 201, 183, 0.15) 0%, transparent 60%),
+      background: radial-gradient(ellipse at center, rgba(183, 142, 121, 0.2) 0%, transparent 70%),
+                  radial-gradient(circle at bottom left, rgba(65, 71, 81, 0.15) 0%, transparent 60%),
                   #0A0C0F;
     }
 
@@ -398,7 +398,7 @@
     .p2-diagram-grid {
       z-index: 5;
       height: 480px;
-      border: 1px solid rgba(106, 142, 174, 0.3);
+      border: 1px solid rgba(183, 142, 121, 0.3);
       position: relative;
       margin: 32px 0 20px 0;
       background: rgba(14, 18, 24, 0.7);
@@ -409,7 +409,7 @@
     }
 
     .p2-wireframe-box {
-      border: 1px dashed rgba(212, 201, 183, 0.35);
+      border: 1px dashed rgba(65, 71, 81, 0.35);
       position: relative;
       padding: 20px;
       display: flex;
@@ -444,8 +444,8 @@
     .node-bar {
       flex: 1;
       height: 28px;
-      background: rgba(106, 142, 174, 0.12);
-      border: 1px solid rgba(106, 142, 174, 0.3);
+      background: rgba(183, 142, 121, 0.12);
+      border: 1px solid rgba(183, 142, 121, 0.3);
       display: flex;
       align-items: center;
       padding: 0 12px;
@@ -463,7 +463,7 @@
 
     .feed-card {
       background: rgba(10, 12, 15, 0.85);
-      border: 1px solid rgba(158, 187, 175, 0.25);
+      border: 1px solid rgba(145, 159, 144, 0.25);
       padding: 12px;
       border-radius: 6px;
     }
@@ -503,8 +503,8 @@
        POSTER 3: MAXIMUM COGNITION / TOTAL CAMPUS INTELLIGENCE
        ========================================================================= */
     #poster-3 {
-      background: radial-gradient(circle at 50% 40%, rgba(158, 187, 175, 0.22) 0%, transparent 65%),
-                  radial-gradient(circle at 80% 90%, rgba(106, 142, 174, 0.25) 0%, transparent 50%),
+      background: radial-gradient(circle at 50% 40%, rgba(145, 159, 144, 0.22) 0%, transparent 65%),
+                  radial-gradient(circle at 80% 90%, rgba(183, 142, 121, 0.25) 0%, transparent 50%),
                   #0A0C0F;
     }
 
@@ -557,7 +557,7 @@
       border: 1px solid var(--color-beige);
       margin: 10px 0;
       background: 
-        radial-gradient(circle at center, rgba(106, 142, 174, 0.3) 0%, transparent 60%),
+        radial-gradient(circle at center, rgba(183, 142, 121, 0.3) 0%, transparent 60%),
         rgba(10, 12, 15, 0.95);
       overflow: hidden;
       display: flex;
@@ -569,14 +569,14 @@
     .radar-circle {
       position: absolute;
       border-radius: 50%;
-      border: 1px solid rgba(212, 201, 183, 0.2);
+      border: 1px solid rgba(65, 71, 81, 0.2);
     }
     .rc-1 { width: 520px; height: 520px; }
     .rc-2 { width: 380px; height: 380px; border-style: dashed; }
-    .rc-3 { width: 220px; height: 220px; border-color: rgba(106, 142, 174, 0.6); }
+    .rc-3 { width: 220px; height: 220px; border-color: rgba(183, 142, 121, 0.6); }
 
-    .target-axis-x { position: absolute; width: 100%; height: 1px; background: rgba(212, 201, 183, 0.25); }
-    .target-axis-y { position: absolute; height: 100%; width: 1px; background: rgba(212, 201, 183, 0.25); }
+    .target-axis-x { position: absolute; width: 100%; height: 1px; background: rgba(65, 71, 81, 0.25); }
+    .target-axis-y { position: absolute; height: 100%; width: 1px; background: rgba(65, 71, 81, 0.25); }
 
     .p3-emblem-box {
       z-index: 5;
@@ -585,7 +585,7 @@
       border: 2px solid var(--color-blue);
       padding: 30px 40px;
       border-radius: 18px;
-      box-shadow: 0 0 60px rgba(106, 142, 174, 0.4);
+      box-shadow: 0 0 60px rgba(183, 142, 121, 0.4);
     }
 
     .p3-emblem-box .eb-sub {
@@ -622,7 +622,7 @@
 
     .p3-col-card {
       background: rgba(18, 22, 28, 0.7);
-      border: 1px solid rgba(106, 142, 174, 0.2);
+      border: 1px solid rgba(183, 142, 121, 0.2);
       padding: 12px 10px;
       border-radius: 6px;
     }
@@ -689,7 +689,7 @@
       font-style: italic;
       color: var(--color-sage);
       text-decoration: underline;
-      text-decoration-color: rgba(212, 201, 183, 0.5);
+      text-decoration-color: rgba(65, 71, 81, 0.5);
       text-underline-offset: 8px;
     }
 
@@ -704,7 +704,7 @@
 
     .p4-arena-col {
       background: rgba(18, 22, 28, 0.8);
-      border: 1px solid rgba(212, 201, 183, 0.25);
+      border: 1px solid rgba(65, 71, 81, 0.25);
       padding: 24px;
       display: flex;
       flex-direction: column;
@@ -713,7 +713,7 @@
     }
 
     .p4-arena-col.highlight-col {
-      background: rgba(106, 142, 174, 0.1);
+      background: rgba(183, 142, 121, 0.1);
       border-color: var(--color-blue);
     }
 
@@ -997,12 +997,12 @@
           <div class="fc-val">ZERO PAPER</div>
           <div style="font-family: var(--font-sans); font-size: 10px; color: var(--color-ink-muted);">Automated verification chains replace manual paperwork.</div>
         </div>
-        <div class="feed-card" style="border-color: rgba(106, 142, 174, 0.4);">
+        <div class="feed-card" style="border-color: rgba(183, 142, 121, 0.4);">
           <div class="fc-tag">MODULE B // INSIGHT</div>
           <div class="fc-val">PREDICTIVE</div>
           <div style="font-family: var(--font-sans); font-size: 10px; color: var(--color-ink-muted);">Early-warning dropout prevention & attendance alerts.</div>
         </div>
-        <div class="feed-card" style="border-color: rgba(212, 201, 183, 0.4);">
+        <div class="feed-card" style="border-color: rgba(65, 71, 81, 0.4);">
           <div class="fc-tag">MODULE C // SECURITY</div>
           <div class="fc-val">ROLE-GUARDED</div>
           <div style="font-family: var(--font-sans); font-size: 10px; color: var(--color-ink-muted);">Total row-level student privacy by default.</div>
@@ -1015,7 +1015,7 @@
       <p>"Education without friction is not just a dream. It is an operating system."</p>
     </div>
 
-    <div class="p1-footer" style="border-top: 1px solid rgba(212, 201, 183, 0.2);">
+    <div class="p1-footer" style="border-top: 1px solid rgba(65, 71, 81, 0.2);">
       <div style="font-family: var(--font-mono); font-size: 11px; color: var(--color-beige);">
         CAMPUSLY &bull; THE NEXT GENERATION LEARNING FABRIC
       </div>
@@ -1094,7 +1094,7 @@
       </div>
     </div>
 
-    <div class="p1-footer" style="border-top: 1px solid rgba(106, 142, 174, 0.3);">
+    <div class="p1-footer" style="border-top: 1px solid rgba(183, 142, 121, 0.3);">
       <div>
         <div style="font-family: var(--font-grotesk); font-size: 13px; font-weight: 800; color: var(--color-offwhite);">
           EXPERIENCE THE CAMPUSLY INTERFACE TODAY
@@ -1193,7 +1193,7 @@
           </p>
         </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(212, 201, 183, 0.3); padding-top: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(65, 71, 81, 0.3); padding-top: 12px;">
           <span style="font-family: var(--font-mono); font-size: 11px; color: var(--color-beige);">CAMPUSLY VERIFIED</span>
           <span style="font-family: var(--font-serif); font-size: 24px; font-style: italic; color: var(--color-offwhite);">Campusly.</span>
         </div>

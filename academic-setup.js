@@ -1045,7 +1045,7 @@
         <div style="margin-bottom:14px;padding:12px;background:var(--color-bg-base);border-radius:var(--radius-sm);border:1px solid var(--color-border);">
           <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:var(--color-text-muted);margin-bottom:6px;">Operating Schedule Overview</div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
-            ${days.map(d => `<span class="badge" style="background:rgba(47,107,89,0.12);color:var(--color-sage);font-size:11px;padding:3px 7px;">${esc(d)}</span>`).join('')}
+            ${days.map(d => `<span class="badge" style="background:rgba(145, 159, 144, 0.22);color:var(--color-sage);font-size:11px;padding:3px 7px;">${esc(d)}</span>`).join('')}
           </div>
           <div class="subtext">${cal.periods_per_day || timings.length || 8} periods scheduled per school day</div>
         </div>
@@ -1069,7 +1069,7 @@
     if (wizardStep === 5) {
       html = `
         <div style="text-align:center;padding:20px 10px;">
-          <div style="width:48px;height:48px;border-radius:50%;background:rgba(47,107,89,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:var(--color-sage);">
+          <div style="width:48px;height:48px;border-radius:50%;background:rgba(145, 159, 144, 0.25);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:var(--color-sage);">
             <i data-lucide="check-circle" style="width:28px;height:28px;"></i>
           </div>
           <h3 style="font-family:var(--font-heading);margin-bottom:6px;">Academic Architecture Configured</h3>
