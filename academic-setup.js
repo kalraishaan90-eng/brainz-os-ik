@@ -246,25 +246,7 @@
   }
 
   function installNavigation() {
-    const navConfig = (typeof window.ROLE_NAV_CONFIG !== 'undefined' ? window.ROLE_NAV_CONFIG : (window.window.ROLE_NAV_CONFIG || null));
-    if (!navConfig || !navConfig.director) return;
-    const dirNav = navConfig.director;
-
-    // Main Academic Setup
-    if (!dirNav.some(item => item.id === 'director-academic-setup')) {
-      dirNav.push({ id: 'director-academic-setup', label: 'Academic Setup', icon: 'notebook-tabs', pageId: 'page-director-academic-setup' });
-    }
-
-    // Sub-pages in sidebar
-    CONFIG_PAGES.forEach(cfg => {
-      if (!dirNav.some(item => item.id === cfg.navId)) {
-        dirNav.push({ id: cfg.navId, label: cfg.label, icon: cfg.icon, pageId: cfg.pageId });
-      }
-    });
-
-    if (typeof renderSidebarNav === 'function' && window.STATE?.currentUser?.role === 'director') {
-      renderSidebarNav();
-    }
+    // Academic Setup sidebar tabs have been retired to simplify the OS interface.
   }
 
   async function loadAcademicData() {
@@ -307,14 +289,6 @@
       if (typeof renderGradebookTable === 'function') renderGradebookTable();
 
       renderConfig();
-
-      // Check first-run setup wizard for director
-      const settings = data.academic_settings?.[0];
-      const saved = localStorage.getItem('academic_setup_wizard');
-      const isDirector = window.STATE?.currentUser?.role === 'director';
-      if (isDirector && (!settings || settings.wizard_completed === false) && saved !== 'dismissed') {
-        startWizard();
-      }
     } catch (err) {
       console.warn('Academic data load error:', err);
     }

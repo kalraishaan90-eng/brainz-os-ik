@@ -10833,16 +10833,7 @@ function renderSidebarNav() {
     emptyNotice.textContent = 'No navigation items available.';
     navContainer.appendChild(emptyNotice);
   } else {
-    let renderedAcademicHeading = false;
     navList.forEach(item => {
-      if (item.id && item.id.startsWith('director-academic') && !renderedAcademicHeading) {
-        const acadCat = document.createElement('div');
-        acadCat.className = 'nav-category';
-        acadCat.style.marginTop = '14px';
-        acadCat.textContent = 'Academic Setup';
-        navContainer.appendChild(acadCat);
-        renderedAcademicHeading = true;
-      }
 
       const btn = document.createElement('button');
       if (item.id) btn.id = 'nav-' + item.id;
