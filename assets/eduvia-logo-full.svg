@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 240" width="100%" height="100%">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="fullTerraE" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C59B86"/>
+      <stop offset="100%" stop-color="#AA7F6A"/>
+    </linearGradient>
+
+    <linearGradient id="fullSteelE" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4E5561"/>
+      <stop offset="100%" stop-color="#373D46"/>
+    </linearGradient>
+
+    <linearGradient id="fullSageE" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9EB09D"/>
+      <stop offset="100%" stop-color="#849483"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Clean Almond Canvas -->
+  <rect width="820" height="240" rx="24" fill="#F2EDE7"/>
+
+  <!-- Left: Eduvia Mark -->
+  <g transform="translate(42, 22) scale(0.38)">
+    <rect x="24" y="24" width="464" height="464" rx="108" fill="#FFFFFF" stroke="rgba(65, 71, 81, 0.12)" stroke-width="2"/>
+    
+    <circle cx="256" cy="256" r="168" fill="none" stroke="#B78E79" stroke-opacity="0.3" stroke-width="2" stroke-dasharray="6 6"/>
+    <circle cx="256" cy="256" r="192" fill="none" stroke="#414751" stroke-opacity="0.12" stroke-width="1.5"/>
+
+    <circle cx="256" cy="64" r="7" fill="#B78E79"/>
+    <circle cx="448" cy="256" r="6" fill="#919F90"/>
+    <circle cx="256" cy="448" r="6" fill="#414751"/>
+    <circle cx="64" cy="256" r="7" fill="#B78E79"/>
+
+    <!-- Spine -->
+    <rect x="156" y="140" width="38" height="232" rx="19" fill="url(#fullSteelE)"/>
+
+    <!-- Tiers -->
+    <path d="M 194 158 L 310 158 A 22 22 0 0 1 332 180 A 22 22 0 0 1 310 202 L 194 202 Z" fill="url(#fullTerraE)"/>
+    <circle cx="310" cy="180" r="7" fill="#FFFFFF"/>
+
+    <path d="M 194 238 L 282 238 A 18 18 0 0 1 300 256 A 18 18 0 0 1 282 274 L 194 274 Z" fill="url(#fullSageE)"/>
+    <circle cx="282" cy="256" r="6" fill="#FFFFFF"/>
+
+    <path d="M 194 310 L 336 310 A 22 22 0 0 1 358 332 A 22 22 0 0 1 336 354 L 194 354 Z" fill="url(#fullSteelE)"/>
+    <circle cx="336" cy="332" r="7" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Architectural Vertical Divider -->
+  <line x1="262" y1="48" x2="262" y2="192" stroke="rgba(65, 71, 81, 0.15)" stroke-width="1.5"/>
+
+  <!-- Right: Typographic Identity Lockup -->
+  <g transform="translate(296, 0)">
+    <!-- Institutional Pill Badge -->
+    <rect x="0" y="44" width="186" height="26" rx="13" fill="#E8EBED" stroke="rgba(65, 71, 81, 0.14)" stroke-width="1"/>
+    <circle cx="12" cy="57" r="4" fill="#919F90"/>
+    <text x="24" y="61" font-family="'Kanit', -apple-system, system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#414751" letter-spacing="1.5">INSTITUTIONAL OS</text>
+
+    <!-- Main Title: Eduvia -->
+    <text x="0" y="126" font-family="'Kanit', -apple-system, system-ui, sans-serif" font-size="54" font-weight="800" fill="#414751" letter-spacing="-1">
+      Edu<tspan fill="#B78E79">via</tspan>
+    </text>
+
+    <!-- Tagline (from metadata in BrainzOS.html) -->
+    <text x="2" y="160" font-family="'Kanit', -apple-system, system-ui, sans-serif" font-size="13" font-weight="600" fill="#767E8A" letter-spacing="2.6">
+      LEARNING &amp; SCHOOL OPERATIONS
+    </text>
+
+    <!-- Metadata Tech specs -->
+    <text x="2" y="185" font-family="'Consolas', monospace" font-size="10" font-weight="500" fill="#B78E79" letter-spacing="1">
+      SOVEREIGN ARCHITECTURE · DPDP COMPLIANT
+    </text>
+  </g>
+</svg>

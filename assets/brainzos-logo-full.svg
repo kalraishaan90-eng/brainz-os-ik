@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" width="100%" height="100%">
+  <defs>
+    <!-- Terracotta Gradient -->
+    <linearGradient id="fullTerra" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C59B86"/>
+      <stop offset="100%" stop-color="#AA7F6A"/>
+    </linearGradient>
+
+    <!-- Steel Gradient -->
+    <linearGradient id="fullSteel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4E5561"/>
+      <stop offset="100%" stop-color="#373D46"/>
+    </linearGradient>
+
+    <!-- Rosemary Sage Gradient -->
+    <linearGradient id="fullSage" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9EB09D"/>
+      <stop offset="100%" stop-color="#849483"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="800" height="240" rx="24" fill="#F2EDE7"/>
+
+  <!-- Left: The BrainzOS Geometric Mark -->
+  <g transform="translate(40, 20) scale(0.39)">
+    <!-- Squircle container -->
+    <rect x="24" y="24" width="464" height="464" rx="108" fill="#FFFFFF" stroke="rgba(65, 71, 81, 0.12)" stroke-width="2"/>
+    
+    <!-- Orbital Rings -->
+    <circle cx="256" cy="256" r="168" fill="none" stroke="#B78E79" stroke-opacity="0.3" stroke-width="2" stroke-dasharray="6 6"/>
+    <circle cx="256" cy="256" r="192" fill="none" stroke="#414751" stroke-opacity="0.15" stroke-width="1.5"/>
+
+    <!-- Satellites -->
+    <circle cx="256" cy="64" r="7" fill="#B78E79"/>
+    <circle cx="448" cy="256" r="6" fill="#919F90"/>
+    <circle cx="256" cy="448" r="6" fill="#414751"/>
+    <circle cx="64" cy="256" r="7" fill="#B78E79"/>
+
+    <!-- Central Emblem -->
+    <!-- Spine -->
+    <rect x="156" y="142" width="38" height="228" rx="19" fill="url(#fullSteel)"/>
+    
+    <!-- Top Arc (Terracotta) -->
+    <path d="M 194 142 L 266 142 A 58 58 0 0 1 324 200 A 58 58 0 0 1 266 258 L 194 258 Z" 
+          fill="none" stroke="url(#fullTerra)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Bottom Arc (Steel) -->
+    <path d="M 194 254 L 278 254 A 58 58 0 0 1 336 312 A 58 58 0 0 1 278 370 L 194 370 Z" 
+          fill="none" stroke="url(#fullSteel)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Kernel Core -->
+    <circle cx="256" cy="256" r="18" fill="url(#fullSage)" stroke="#FFFFFF" stroke-width="4"/>
+    <circle cx="260" cy="200" r="6" fill="#FFFFFF"/>
+    <circle cx="270" cy="312" r="6" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Vertical Divider -->
+  <line x1="265" y1="50" x2="265" y2="190" stroke="rgba(65, 71, 81, 0.15)" stroke-width="1.5"/>
+
+  <!-- Right: Typographic Wordmark -->
+  <g transform="translate(295, 0)">
+    <!-- Pill Badge -->
+    <rect x="0" y="44" width="168" height="26" rx="13" fill="#E8EBED" stroke="rgba(65, 71, 81, 0.14)" stroke-width="1"/>
+    <circle cx="12" cy="57" r="4" fill="#919F90"/>
+    <text x="24" y="61" font-family="'Kanit', -apple-system, system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#414751" letter-spacing="1.5">SOVEREIGN CORE</text>
+
+    <!-- Main Title: BrainzOS -->
+    <text x="0" y="126" font-family="'Kanit', -apple-system, system-ui, sans-serif" font-size="52" font-weight="800" fill="#414751" letter-spacing="-1">
+      Brainz<tspan fill="#B78E79">OS</tspan>
+    </text>
+
+    <!-- Subtitle / Descriptor -->
+    <text x="2" y="160" font-family="'Kanit', -apple-system, system-ui, sans-serif" font-size="13" font-weight="600" fill="#767E8A" letter-spacing="2.8">
+      THE COGNITIVE INSTITUTIONAL SYSTEM
+    </text>
+
+    <!-- Micro Metadata -->
+    <text x="2" y="185" font-family="'Consolas', monospace" font-size="10" font-weight="500" fill="#B78E79" letter-spacing="1">
+      AIR-GAPPED · ZERO-TRUST · v2.4
+    </text>
+  </g>
+</svg>

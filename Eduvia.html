@@ -20,7 +20,7 @@
   <meta name="twitter:image" data-brand-meta-twitter-image content="" />
 
   <!-- Lightweight Inline SVG Favicon (No external requests, zero bloat) -->
-  <link id="brand-favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23414751'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23F2EDE7' font-family='Kanit, sans-serif' font-size='18' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E" data-brand-favicon />
+  <link id="brand-favicon" rel="icon" type="image/png" href="assets/eduvia-mark.png" data-brand-favicon />
 
   <!-- =========================================================================
        PRODUCTION ARCHITECTURE NOTE: robots.txt & sitemap.xml
@@ -696,7 +696,7 @@
       width: 42px;
       height: 42px;
       border-radius: 12px;
-      background: rgba(183, 142, 121, 0.18);
+      background: var(--color-surface-white);
       color: var(--color-ink);
       display: flex;
       align-items: center;
@@ -704,8 +704,19 @@
       font-family: var(--font-heading);
       font-weight: 600;
       font-size: 1.35rem;
-      border: 1px solid rgba(183, 142, 121, 0.35);
-      box-shadow: 0 4px 14px rgba(65, 71, 81, 0.08), 0 0 12px rgba(183, 142, 121, 0.15);
+      border: 1px solid rgba(65, 71, 81, 0.12);
+      box-shadow: 0 4px 14px rgba(65, 71, 81, 0.08);
+      overflow: hidden;
+      flex-shrink: 0;
+      padding: 2px;
+    }
+
+    .brand-crest img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 10px;
+      display: block;
     }
 
     .brand-title {
@@ -3654,7 +3665,7 @@
 <section class="login-viewport" id="login-viewport" role="region" aria-label="Institutional Authentication">
 <div class="login-card">
 <div class="brand-mark">
-<div class="brand-crest" aria-hidden="true" data-brand-mark>S</div>
+<div class="brand-crest" aria-hidden="true" data-brand-mark><img src="assets/eduvia-mark.png" alt="Eduvia" /></div>
 <div>
 <div class="brand-title" data-brand-product>Eduvia</div>
 <div class="brand-tagline" data-brand-tagline>Institutional Operating System</div>
@@ -3751,7 +3762,7 @@
   <section class="login-viewport" id="waiting-viewport" style="display: none;" role="region" aria-label="Awaiting Director Authorization">
     <div class="login-card" style="max-width: 500px; text-align: center;">
       <div class="brand-mark" style="justify-content: center; margin-bottom: 20px;">
-        <div class="brand-crest" aria-hidden="true" data-brand-mark>S</div>
+        <div class="brand-crest" aria-hidden="true" data-brand-mark><img src="assets/eduvia-mark.png" alt="Eduvia" /></div>
         <div style="text-align: left;">
           <div class="brand-title" data-brand-product>Eduvia</div>
           <div class="brand-tagline" data-brand-tagline-waiting>Institutional Access Control</div>
@@ -3839,7 +3850,7 @@
     <!-- Collapsible Responsive Sidebar -->
     <aside id="app-sidebar" class="app-sidebar">
       <div class="sidebar-brand">
-        <div class="brand-crest" data-brand-mark>S</div>
+        <div class="brand-crest" data-brand-mark><img src="assets/eduvia-mark.png" alt="Eduvia" /></div>
         <div class="sidebar-brand-text">
           <h2 data-brand-product>Eduvia</h2>
           <span data-brand-tagline>Senior Secondary</span>
@@ -7199,7 +7210,7 @@
     <!-- Live Preview Stage -->
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; padding: 20px; background: var(--color-surface-cream); border: 1.5px solid var(--color-border); border-radius: var(--radius-md);">
       <!-- Sidebar Wordmark Preview -->
-      <div style="padding: 16px; background: var(--color-ink); border-radius: var(--radius-sm); color: var(--color-cream); display: flex; align-items: center; gap: 12px;">          <div id="preview-sidebar-crest" class="brand-crest" style="width: 40px; height: 40px; font-size: 1.2rem; background: var(--color-blue); color: #FFFFFF; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-sm); overflow: hidden;" data-preview-brand-mark>S</div>
+      <div style="padding: 16px; background: var(--color-ink); border-radius: var(--radius-sm); color: var(--color-cream); display: flex; align-items: center; gap: 12px;">          <div id="preview-sidebar-crest" class="brand-crest" style="width: 40px; height: 40px; font-size: 1.2rem; background: var(--color-surface-white); color: #FFFFFF; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-sm); overflow: hidden; padding: 2px;" data-preview-brand-mark><img src="assets/eduvia-mark.png" alt="Eduvia" style="width:100%;height:100%;object-fit:contain;" /></div>
         <div>
           <h2 id="preview-sidebar-product" style="font-family: var(--font-heading); font-size: 1.15rem; margin: 0; color: #FFFFFF; font-weight: 600;" data-preview-name>Eduvia</h2>
           <span id="preview-sidebar-school" style="font-size: var(--text-xs); color: var(--color-beige); display: block;" data-preview-school>Brainz Edu World</span>
@@ -8272,8 +8283,8 @@ const PRODUCT_NAME = 'Eduvia';
 const BRAND_DEFAULTS = Object.freeze({
   product_name: PRODUCT_NAME,
   school_name: 'Brainz Edu World',
-  tagline: 'Senior Secondary',
-  logo_url: null,
+  tagline: 'Institutional Learning & Operations',
+  logo_url: 'assets/eduvia-mark.png',
   support_email: 'support@brainzeduworld.com',
   email_domain: 'brainzeduworld.com',
   allowed_domains: ['brainzeduworld.com'],
@@ -8367,18 +8378,23 @@ function applySchoolBranding() {
   }
   const favicon = document.getElementById('brand-favicon');
   if (favicon) {
-    const mark = product.trim().charAt(0).toUpperCase() || 'S';
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#414751"/><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#F2EDE7" font-family="Kanit, sans-serif" font-size="18" font-weight="bold">${escapeHtml(mark)}</text></svg>`;
-    favicon.href = `data:image/svg+xml,${encodeURIComponent(svg)}`;
+    if (SCHOOL_SETTINGS.logo_url) {
+      favicon.href = SCHOOL_SETTINGS.logo_url;
+      favicon.type = SCHOOL_SETTINGS.logo_url.endsWith('.svg') ? 'image/svg+xml' : 'image/png';
+    } else {
+      favicon.href = 'assets/eduvia-mark.png';
+      favicon.type = 'image/png';
+    }
   }
   document.documentElement.style.setProperty('--color-blue', brandPrimaryColor());
   document.documentElement.style.setProperty('--color-sage', brandAccentColor());
   document.querySelectorAll('[data-brand-mark]').forEach(node => {
-    if (SCHOOL_SETTINGS.logo_url) {
+    const logoSrc = SCHOOL_SETTINGS.logo_url || 'assets/eduvia-mark.png';
+    if (logoSrc) {
       node.textContent = '';
       const img = document.createElement('img');
-      img.src = SCHOOL_SETTINGS.logo_url;
-      img.alt = `${SCHOOL_SETTINGS.school_name} logo`;
+      img.src = logoSrc;
+      img.alt = `${SCHOOL_SETTINGS.school_name || product} logo`;
       img.referrerPolicy = 'no-referrer';
       img.onerror = () => { node.textContent = product.charAt(0).toUpperCase(); };
       node.appendChild(img);

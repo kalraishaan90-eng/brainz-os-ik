@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background cream gradient -->
+    <linearGradient id="eduBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F7F3EE"/>
+      <stop offset="100%" stop-color="#EBE4DC"/>
+    </linearGradient>
+
+    <!-- Warm Terracotta -->
+    <linearGradient id="eduTerra" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C59B86"/>
+      <stop offset="100%" stop-color="#AA7F6A"/>
+    </linearGradient>
+
+    <!-- Deep Steel -->
+    <linearGradient id="eduSteel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4E5561"/>
+      <stop offset="100%" stop-color="#373D46"/>
+    </linearGradient>
+
+    <!-- Rosemary Sage -->
+    <linearGradient id="eduSage" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9EB09D"/>
+      <stop offset="100%" stop-color="#849483"/>
+    </linearGradient>
+
+    <!-- Subtle Elevation Shadow -->
+    <filter id="eduShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#414751" flood-opacity="0.10"/>
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#B78E79" flood-opacity="0.08"/>
+    </filter>
+
+    <filter id="markElevation" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#414751" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Squircle Canvas Container -->
+  <rect x="24" y="24" width="464" height="464" rx="108" fill="url(#eduBg)" stroke="#E1D8CE" stroke-width="2" filter="url(#eduShadow)"/>
+
+  <!-- Precision Calibration Grid Ticks -->
+  <g opacity="0.45" stroke="#414751" stroke-width="1.2" stroke-linecap="round">
+    <!-- Corner calibration marks -->
+    <line x1="68" y1="68" x2="80" y2="68"/>
+    <line x1="68" y1="68" x2="68" y2="80"/>
+    <line x1="444" y1="68" x2="432" y2="68"/>
+    <line x1="444" y1="68" x2="444" y2="80"/>
+    <line x1="68" y1="444" x2="80" y2="444"/>
+    <line x1="68" y1="444" x2="68" y2="432"/>
+    <line x1="444" y1="444" x2="432" y2="444"/>
+    <line x1="444" y1="444" x2="444" y2="432"/>
+    
+    <!-- Horizon Crossbars -->
+    <line x1="256" y1="52" x2="256" y2="62"/>
+    <line x1="256" y1="450" x2="256" y2="460"/>
+    <line x1="52" y1="256" x2="62" y2="256"/>
+    <line x1="450" y1="256" x2="460" y2="256"/>
+  </g>
+
+  <!-- Orbital Horizon System -->
+  <circle cx="256" cy="256" r="168" fill="none" stroke="#B78E79" stroke-opacity="0.22" stroke-width="1.5" stroke-dasharray="5 5"/>
+  <circle cx="256" cy="256" r="192" fill="none" stroke="#414751" stroke-opacity="0.10" stroke-width="1.2"/>
+
+  <!-- Satellite Nodes -->
+  <circle cx="256" cy="64" r="5" fill="#B78E79"/>
+  <circle cx="448" cy="256" r="4.5" fill="#919F90"/>
+  <circle cx="256" cy="448" r="4" fill="#414751"/>
+  <circle cx="64" cy="256" r="4.5" fill="#B78E79"/>
+
+  <!-- CENTRAL BRAND EMBLEM: The Eduvia Monogram "E" -->
+  <!-- Architecture: 3 Institutional Pathways (Scholars, Faculty, Leadership) anchored to the Sovereign Pillar -->
+  <g filter="url(#markElevation)">
+    <!-- Vertical Pillar: Deep Steel (Institutional Spine) -->
+    <rect x="156" y="140" width="38" height="232" rx="19" fill="url(#eduSteel)"/>
+
+    <!-- Top Tier: Terracotta (Scholars & Creative Knowledge) -->
+    <path d="M 194 158 
+             L 310 158 
+             A 22 22 0 0 1 332 180 
+             A 22 22 0 0 1 310 202 
+             L 194 202 
+             Z" 
+          fill="url(#eduTerra)"/>
+    <!-- Top terminal node -->
+    <circle cx="310" cy="180" r="7" fill="#FFFFFF"/>
+
+    <!-- Middle Tier: Rosemary Sage (Faculty & Academic Growth) -->
+    <path d="M 194 238 
+             L 282 238 
+             A 18 18 0 0 1 300 256 
+             A 18 18 0 0 1 282 274 
+             L 194 274 
+             Z" 
+          fill="url(#eduSage)"/>
+    <!-- Middle terminal node -->
+    <circle cx="282" cy="256" r="6" fill="#FFFFFF"/>
+
+    <!-- Bottom Tier: Deep Steel (Executive Leadership & Governance) -->
+    <path d="M 194 310 
+             L 336 310 
+             A 22 22 0 0 1 358 332 
+             A 22 22 0 0 1 336 354 
+             L 194 354 
+             Z" 
+          fill="url(#eduSteel)"/>
+    <!-- Bottom terminal node -->
+    <circle cx="336" cy="332" r="7" fill="#FFFFFF"/>
+
+    <!-- The "Via" Angular Conduits (Diagonal dynamic pathways connecting the tiers) -->
+    <circle cx="228" cy="180" r="4" fill="#FFFFFF" opacity="0.8"/>
+    <circle cx="228" cy="256" r="4" fill="#FFFFFF" opacity="0.8"/>
+    <circle cx="228" cy="332" r="4" fill="#FFFFFF" opacity="0.8"/>
+  </g>
+</svg>

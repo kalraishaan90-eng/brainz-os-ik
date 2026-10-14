@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background subtle gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F7F3EE"/>
+      <stop offset="100%" stop-color="#EBE4DC"/>
+    </linearGradient>
+
+    <!-- Warm Architectural Terracotta -->
+    <linearGradient id="terraGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C59B86"/>
+      <stop offset="100%" stop-color="#AA7F6A"/>
+    </linearGradient>
+
+    <!-- Deep Steel Ink -->
+    <linearGradient id="steelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4E5561"/>
+      <stop offset="100%" stop-color="#373D46"/>
+    </linearGradient>
+
+    <!-- Rosemary Sage -->
+    <linearGradient id="sageGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9EB09D"/>
+      <stop offset="100%" stop-color="#849483"/>
+    </linearGradient>
+
+    <!-- Soft Ambient Shadow -->
+    <filter id="softShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#414751" flood-opacity="0.10"/>
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#B78E79" flood-opacity="0.08"/>
+    </filter>
+
+    <filter id="coreGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#414751" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Squircle Canvas Container -->
+  <rect x="24" y="24" width="464" height="464" rx="108" fill="url(#bgGrad)" stroke="#E1D8CE" stroke-width="2" filter="url(#softShadow)"/>
+
+  <!-- Subtle Architectural Grid / Ticks -->
+  <g opacity="0.45" stroke="#414751" stroke-width="1.2" stroke-linecap="round">
+    <!-- Corner calibration marks -->
+    <line x1="68" y1="68" x2="80" y2="68"/>
+    <line x1="68" y1="68" x2="68" y2="80"/>
+    <line x1="444" y1="68" x2="432" y2="68"/>
+    <line x1="444" y1="68" x2="444" y2="80"/>
+    <line x1="68" y1="444" x2="80" y2="444"/>
+    <line x1="68" y1="444" x2="68" y2="432"/>
+    <line x1="444" y1="444" x2="432" y2="444"/>
+    <line x1="444" y1="444" x2="444" y2="432"/>
+    
+    <!-- Coordinate ticks -->
+    <line x1="256" y1="52" x2="256" y2="62"/>
+    <line x1="256" y1="450" x2="256" y2="460"/>
+    <line x1="52" y1="256" x2="62" y2="256"/>
+    <line x1="450" y1="256" x2="460" y2="256"/>
+  </g>
+
+  <!-- Orbital OS Horizon Ring -->
+  <circle cx="256" cy="256" r="162" fill="none" stroke="#B78E79" stroke-opacity="0.22" stroke-width="1.5" stroke-dasharray="5 5"/>
+  <circle cx="256" cy="256" r="186" fill="none" stroke="#414751" stroke-opacity="0.12" stroke-width="1.2"/>
+
+  <!-- Orbital Node Satellites -->
+  <circle cx="256" cy="70" r="5" fill="#B78E79"/>
+  <circle cx="442" cy="256" r="4.5" fill="#919F90"/>
+  <circle cx="256" cy="442" r="4" fill="#414751"/>
+  <circle cx="70" cy="256" r="4.5" fill="#B78E79"/>
+
+  <!-- CENTRAL BRAND EMBLEM: The Cognitive Monogram & OS Core -->
+  <g filter="url(#coreGlow)">
+    <!-- Monolithic Left Stem (The OS Spine / Pillar) -->
+    <rect x="156" y="142" width="38" height="228" rx="19" fill="url(#steelGrad)"/>
+    
+    <!-- Top Cerebral Lobe (Concentric Arc 1 - Terracotta) -->
+    <path d="M 194 142 
+             L 266 142 
+             A 58 58 0 0 1 324 200 
+             A 58 58 0 0 1 266 258 
+             L 194 258 
+             Z" 
+          fill="none" 
+          stroke="url(#terraGrad)" 
+          stroke-width="32" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+
+    <!-- Bottom Cerebral Lobe (Concentric Arc 2 - Steel / Sage Accent) -->
+    <path d="M 194 254 
+             L 278 254 
+             A 58 58 0 0 1 336 312 
+             A 58 58 0 0 1 278 370 
+             L 194 370 
+             Z" 
+          fill="none" 
+          stroke="url(#steelGrad)" 
+          stroke-width="32" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+
+    <!-- The Sovereign Kernel (Center Pulse / Sage Node) -->
+    <circle cx="256" cy="256" r="16" fill="url(#sageGrad)" stroke="#FFFFFF" stroke-width="4"/>
+
+    <!-- Synaptic Bridge Micro-Points -->
+    <circle cx="260" cy="200" r="6" fill="#FFFFFF"/>
+    <circle cx="270" cy="312" r="6" fill="#FFFFFF"/>
+  </g>
+</svg>
